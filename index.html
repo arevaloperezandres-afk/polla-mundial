@@ -60,7 +60,7 @@
   .tab.active{background:var(--card);color:var(--ink);box-shadow:0 2px 10px -4px rgba(15,31,61,.25),inset 0 0 0 1px var(--line)}
   .tab .ic{font-size:16px}
 
-  nav [data-view="entry"],nav [data-view="people"]{display:none}
+  nav [data-view="entry"],nav [data-view="people"],#newsEditor,.news-item .ndel{display:none}
   main{max-width:1200px;margin:0 auto}
   .view{display:none;animation:fade .3s ease}
   .view.active{display:block}
@@ -187,17 +187,31 @@
   .pchip{max-width:100%} .snapitem .d{word-break:break-word}
   /* bar chart race */
   #race{position:relative;width:100%;overflow:hidden}
-  .racebar{position:absolute;left:0;right:0;height:22px;display:flex;align-items:center;gap:9px;transition:transform .8s cubic-bezier(.4,0,.2,1)}
-  .racebar .rlabel{width:74px;flex:none;text-align:right;font-weight:700;font-size:11px;color:var(--ink);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
-  .racebar .rtrack{flex:1;position:relative;height:14px;border-radius:4px;background:var(--paper2)}
+  .racebar{position:absolute;left:0;right:0;height:18px;display:flex;align-items:center;gap:7px;transition:transform .7s cubic-bezier(.4,0,.2,1)}
+  .racebar .rlabel{width:72px;flex:none;text-align:right;font-weight:700;font-size:10.5px;color:var(--ink);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+  .racebar .rtrack{flex:1;position:relative;height:11px;border-radius:4px;background:var(--paper2)}
   .racebar .rfill{position:absolute;left:0;top:0;bottom:0;width:0;min-width:3px;border-radius:4px;transition:width .8s cubic-bezier(.4,0,.2,1)}
-  .racebar .rval{flex:none;width:46px;text-align:left;font-weight:700;font-size:11.5px;color:var(--ink);font-variant-numeric:tabular-nums}
+  .racebar .rval{flex:none;width:44px;text-align:left;font-weight:700;font-size:10.5px;color:var(--ink);font-variant-numeric:tabular-nums}
   .racectrl{display:flex;align-items:center;gap:12px;margin-top:18px}
   .racectrl input[type=range]{flex:1;accent-color:var(--green);height:4px}
   .racebig{font-size:16px;padding:14px 28px;border-radius:12px}
   .raceopts{display:flex;align-items:center;gap:8px;margin-bottom:16px;flex-wrap:wrap}
   .raceopts .lb{font-size:12px;font-weight:700;color:var(--muted);text-transform:uppercase;letter-spacing:.08em;margin-right:2px}
   .selbtn.active{background:var(--green);color:#fff;border-color:var(--green)}
+  .news-help{color:var(--muted);font-size:13px;margin-bottom:14px}
+  .news-form{display:grid;grid-template-columns:1.4fr 1fr 1.6fr auto;gap:8px;margin-bottom:18px}
+  .news-form input{background:var(--paper);border:1px solid var(--line);color:var(--ink);font-family:inherit;font-size:14px;padding:10px 12px;border-radius:10px}
+  .news-form input:focus{outline:none;border-color:var(--green);box-shadow:0 0 0 3px rgba(31,111,235,.14)}
+  .news-list{display:flex;flex-direction:column;gap:10px}
+  .news-item{display:flex;align-items:flex-start;gap:12px;padding:12px 14px;border:1px solid var(--line);border-radius:12px;background:var(--card);transition:.15s}
+  .news-item:hover{border-color:var(--green);box-shadow:var(--shadow)}
+  .news-item .nsrc{font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:.04em;color:#fff;background:var(--green);border-radius:6px;padding:3px 8px;flex:none;margin-top:2px;white-space:nowrap}
+  .news-item .nbody{flex:1;min-width:0}
+  .news-item .ntitle{font-weight:600;color:var(--ink);text-decoration:none;line-height:1.35;display:block}
+  .news-item a.ntitle:hover{color:var(--green);text-decoration:underline}
+  .news-item .nurl{font-size:11.5px;color:var(--faint);display:block;margin-top:2px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+  .news-item .ndel{background:none;border:none;color:var(--faint);cursor:pointer;font-size:18px;line-height:1;flex:none;padding:0 4px}
+  .news-item .ndel:hover{color:var(--bad)}
   /* reglas sin recuadros */
   .rules-page{padding:2px}
   .rules-title{font-size:clamp(20px,2.4vw,24px);font-weight:700;color:var(--ink);margin-bottom:6px}
@@ -226,6 +240,7 @@
     .racebar{gap:7px}
     table{font-size:13px}
     .rules-cols{gap:18px}
+    .news-form{grid-template-columns:1fr}
     .racebig{font-size:15px;padding:13px 22px}
   }
   @media(max-width:520px){
@@ -245,6 +260,8 @@
 
 <nav>
   <button class="tab active" data-view="dash"><span class="ic">📊</span> Tablero</button>
+  <button class="tab" data-view="evol"><span class="ic">📈</span> Evolución</button>
+  <button class="tab" data-view="news"><span class="ic">📰</span> Noticias</button>
   <button class="tab" data-view="entry"><span class="ic">✍️</span> Registrar jornada</button>
   <button class="tab" data-view="people"><span class="ic">👥</span> Participantes</button>
   <button class="tab" data-view="rules"><span class="ic">📖</span> Reglas y puntaje</button>
@@ -262,6 +279,24 @@
     <div id="dashContent" style="display:none">
       <div class="kpis" id="kpis"></div>
 
+      <div class="card card-pad">
+        <div class="card-h">
+          <h2>Clasificación actual</h2>
+          <div class="tsearch"><input type="text" id="tableSearch" placeholder="Buscar participante…"></div>
+        </div>
+        <div class="tablebox"><table id="standTable"></table></div>
+        <div class="hint" id="lastDateLbl" style="margin-top:10px;color:var(--faint)"></div>
+      </div>
+    </div>
+  </section>
+
+  <section class="view" id="view-evol">
+    <div id="evolEmpty" class="card"><div class="empty">
+      <div class="icon">📈</div>
+      <h2>Aún no hay evolución que mostrar</h2>
+      <p>Cuando se registre la primera jornada, aquí verás la carrera de puntos animada del concurso.</p>
+    </div></div>
+    <div id="evolContent" style="display:none">
       <div class="card card-pad" style="margin-bottom:18px">
         <div class="card-h"><h2>Carrera de puntos</h2><span class="hint" id="raceDate"></span></div>
         <div class="raceopts">
@@ -277,15 +312,22 @@
           <input type="range" id="raceSlider" min="0" max="0" value="0" step="1">
         </div>
       </div>
+    </div>
+  </section>
 
-      <div class="card card-pad">
-        <div class="card-h">
-          <h2>Clasificación actual</h2>
-          <div class="tsearch"><input type="text" id="tableSearch" placeholder="Buscar participante…"></div>
+  <section class="view" id="view-news">
+    <div class="card card-pad">
+      <div class="card-h"><h2>Noticias del día</h2><span class="hint">análisis y previas de portales deportivos</span></div>
+      <div id="newsEditor">
+        <p class="news-help">Hasta 10 enlaces. Prioriza los análisis de los partidos del día.</p>
+        <div class="news-form">
+          <input type="text" id="newsTitle" placeholder="Título de la noticia">
+          <input type="text" id="newsSource" placeholder="Fuente (ESPN, Marca…)">
+          <input type="text" id="newsUrl" placeholder="https://…">
+          <button class="btn primary" id="newsAdd" type="button">Agregar</button>
         </div>
-        <div class="tablebox"><table id="standTable"></table></div>
-        <div class="hint" id="lastDateLbl" style="margin-top:10px;color:var(--faint)"></div>
       </div>
+      <div id="newsList" class="news-list"></div>
     </div>
   </section>
 
@@ -412,8 +454,20 @@
   // Etiqueta = nombre real (del Excel) para reconocer a cada quien; vacío = por confirmar
   const SEED_ALIAS={"Andrés Arévalo Pérez":"Andrés Arévalo","John Galvis":"John Galvis","tatin Garcia ( son wanda)":"Martín García","Miguel Linares":"Miguel Linares","Juan Arévalo":"Juan Manuel Arévalo","Maria Carolina Otálora Arévalo":"Carolina Otálora","Avelino Bejarano Rodriguez":"Avelino Bejarano","Jorge Calderon":"Jorge Calderón","James Pinzon":"James Pinzón","Daniel Felipe Cruz Villamil":"Felipe Cruz","Hugo Tovar Perez":"Hugo Tovar","Amparo Perez":"Amparo Pérez","Carlos Augusto Arevalo Castañeda":"Augusto Arévalo","Oscar Tovar Perez":"Oscar Tovar","Andrés Felipe Guevara Ramírez":"Andrés Guevara","Carito P Gonzalezz":"Carolina Pérez","Orlando Bejarano":"Jose Orlando Bejarano","Himelda Arévalo Castañeda":"Tía Himelda Arévalo","Rafael Arevalo":"Rafael Arévalo","Adrian Bejarano":"Adrián Bejarano","Carlos A. Arevalo A.":"Carlos Alberto Arévalo","Julieth Andrea Gonzalez":"July Bejarano","David Arevalo":"David Arévalo","Laura Ramírez":"Laurita Ramírez","Diego Arevalo":"Diego Arévalo","ANGELA PATRICIA VALENCIA LOZANO":"Patricia Valencia","Omi Goku Arévalo Suárez":"Mayra Suárez","Maria Paula":"María Paula Arévalo","Ana Dolores Arevalo de Arevalo":"Tío Alberto Arévalo","julian manuel riveros alvarado":"Julián Riveros","Erika Bejarano":"Erika Bejarano","Daniel Bejarano":"Daniel Bejarano"};
   const SEED_ACR={"Andrés Arévalo Pérez":"AAP","John Galvis":"JoGa","tatin Garcia ( son wanda)":"Tatin","Miguel Linares":"MiLi","Juan Arévalo":"JMAr","Maria Carolina Otálora Arévalo":"CaOt","Avelino Bejarano Rodriguez":"AvBe","Jorge Calderon":"JoCa","James Pinzon":"JaPi","Daniel Felipe Cruz Villamil":"FeCr","Hugo Tovar Perez":"HuTo","Amparo Perez":"AmPe","Carlos Augusto Arevalo Castañeda":"CAAC","Oscar Tovar Perez":"OsTo","Andrés Felipe Guevara Ramírez":"AnGue","Carito P Gonzalezz":"CaPe","Orlando Bejarano":"OrBe","Himelda Arévalo Castañeda":"HiAre","Rafael Arevalo":"RaAre","Adrian Bejarano":"AdBe","Carlos A. Arevalo A.":"AlbAre","Julieth Andrea Gonzalez":"JuGo","David Arevalo":"DAreP","Laura Ramírez":"LaRa","Diego Arevalo":"DieJou","ANGELA PATRICIA VALENCIA LOZANO":"PaVa","Omi Goku Arévalo Suárez":"Omi","Maria Paula":"MPAre","Ana Dolores Arevalo de Arevalo":"AnDAA","julian manuel riveros alvarado":"JuRi","Erika Bejarano":"EriBe","Daniel Bejarano":"DaBe"};
+  const SEED_NEWS=[
+    {t:"México vs Sudáfrica: antecedentes y números del duelo inaugural",s:"ESPN",u:"https://espndeportes.espn.com/futbol/mundial/nota/_/id/16049783/mexico-mundial-2026-sorteo-grupo-a-sudafrica-corea-antecedentes"},
+    {t:"Análisis del Grupo A: México, Sudáfrica, Corea del Sur y Chequia",s:"RPP",u:"https://rpp.pe/futbol/mundial-2026/analisis-del-grupo-a-del-mundial-2026-mexico-sudafrica-corea-del-sur-y-republica-checa-noticia-1692233"},
+    {t:"México vs Sudáfrica: pronóstico y claves del partido",s:"Squawka",u:"https://www.squawka.com/us-es/news/mundial-2026/mexico-vs-sudafrica-pronostico-mundial-2026/"},
+    {t:"Los favoritos para ganar cada grupo del Mundial 2026",s:"Sports Illustrated",u:"https://www.si.com/es-us/futbol/los-favoritos-para-ganar-cada-grupo-del-mundial-2026"},
+    {t:"Inauguración del Mundial 2026: día, horario, TV y cómo ver",s:"La Nación",u:"https://www.lanacion.com.ar/deportes/futbol/inauguracion-del-mundial-2026-dia-horario-tv-y-como-ver-online-nid09062026/"},
+    {t:"Ceremonia inaugural del Mundial 2026: artistas y horarios",s:"Olympics",u:"https://www.olympics.com/es/noticias/ceremonia-inaugural-mundial-2026"},
+    {t:"Partido inaugural en el Azteca: contexto histórico",s:"ESPN",u:"https://espndeportes.espn.com/futbol/mundial/nota/_/id/16043448/mundial-2026-cual-sera-partido-inaugural-mexico-eeuu-canada"},
+    {t:"Inauguración Mundial 2026: guía completa",s:"Digital Trends",u:"https://es.digitaltrends.com/deportes/inauguracion-mundial-2026/"},
+    {t:"A qué hora es la ceremonia de apertura del Mundial 2026",s:"Yahoo",u:"https://es-us.noticias.yahoo.com/deportes/a-que-hora-es-la-ceremonia-de-apertura-del-mundial-2026-de-este-jueves-11-de-junio-185355652.html"},
+    {t:"¿Cuándo empieza el Mundial 2026? Fecha de inauguración",s:"RPP",u:"https://rpp.pe/futbol/mundial-2026/cuando-empieza-el-mundial-2026-fecha-de-inauguracion-noticia-1691284"}
+  ];
 
-  let data={participants:[],snapshots:[],aliases:{},acronyms:{}};
+  let data={participants:[],snapshots:[],aliases:{},acronyms:{},news:[]};
   let charts={};
   let selected=null;     // Set de nombres visibles en gráficos
   let editingDate=null;
@@ -421,7 +475,7 @@
   const EMBEDDED_SNAPSHOTS=[];
   const ACTUALIZADO="—";
   async function load(){
-    data={participants:[...SEED],aliases:Object.assign({},SEED_ALIAS),acronyms:Object.assign({},SEED_ACR),snapshots:JSON.parse(JSON.stringify(EMBEDDED_SNAPSHOTS))};
+    data={participants:[...SEED],aliases:Object.assign({},SEED_ALIAS),acronyms:Object.assign({},SEED_ACR),snapshots:JSON.parse(JSON.stringify(EMBEDDED_SNAPSHOTS)),news:JSON.parse(JSON.stringify(SEED_NEWS))};
   }
   async function save(){return true;}
 
@@ -444,6 +498,8 @@
     document.querySelectorAll('.view').forEach(s=>s.classList.remove('active'));
     $('#view-'+v).classList.add('active');
     if(v==='dash')renderDash();
+    if(v==='evol')renderEvol();
+    if(v==='news')renderNews();
     if(v==='entry')renderEntry();
     if(v==='people')renderPeople();
   };
@@ -544,12 +600,18 @@
     const ready=data.participants.length>0&&data.snapshots.length>0;
     $('#dashEmpty').style.display=ready?'none':'block';
     $('#dashContent').style.display=ready?'block':'none';
-    if(!ready){stopRace();return;}
+    if(!ready)return;
     const {snaps,last,prev,stand}=currentStand();
     renderKPIs(stand,snaps,prev);
     renderStandTable(stand,prev);
     $('#lastDateLbl').textContent='Datos al '+fmtLong(last.date)+' \u00b7 '+data.participants.length+' participantes';
-    buildRace(snaps);
+  }
+  function renderEvol(){
+    const ready=data.participants.length>0&&data.snapshots.length>0;
+    $('#evolEmpty').style.display=ready?'none':'block';
+    $('#evolContent').style.display=ready?'block':'none';
+    if(!ready){stopRace();return;}
+    buildRace(sortedSnaps());
   }
   function renderKPIs(stand,snaps,prev){
     const leader=stand[0];const lead=leader.pts;
@@ -589,7 +651,9 @@
 
   /* bar chart race (carrera de puntos) */
   let raceTimer=null,raceFrame=0,raceBars={},raceN=10,raceMax=1;
-  const RACE_ROWH=26;
+  let raceRowHCur=22;
+  function raceRowH(N){return N<=12?28:(N<=24?22:17);}
+  function raceTrackH(rh){return Math.max(8,Math.min(16,rh-7));}
   function raceCount(){return Math.min(raceN==='all'?data.participants.length:raceN,data.participants.length);}
   function markRaceN(){document.querySelectorAll('.raceN').forEach(x=>x.classList.toggle('active',(x.dataset.n==='all'?'all':parseInt(x.dataset.n))===raceN));}
   function stopRace(){if(raceTimer){clearInterval(raceTimer);raceTimer=null;}const b=document.getElementById('racePlay');if(b)b.textContent='\u25b6 Reproducir';}
@@ -597,12 +661,14 @@
     stopRace();
     const cont=document.getElementById('race');if(!cont)return;
     const N=raceCount();markRaceN();
+    const ROWH=raceRowH(N);raceRowHCur=ROWH;const TH=raceTrackH(ROWH);
     raceMax=1;snaps.forEach(s=>data.participants.forEach(p=>{const v=s.points[p]??0;if(v>raceMax)raceMax=v;}));
-    cont.style.height=(N*RACE_ROWH)+'px';
+    cont.style.height=(N*ROWH)+'px';
     cont.innerHTML='';raceBars={};
     data.participants.forEach(p=>{
       const el=document.createElement('div');el.className='racebar';
-      el.innerHTML='<div class="rlabel">'+escapeHtml(acrOf(p))+'</div><div class="rtrack"><div class="rfill" style="background:'+colorOf(p)+'"></div></div><div class="rval">0</div>';
+      el.style.height=(ROWH-3)+'px';
+      el.innerHTML='<div class="rlabel">'+escapeHtml(acrOf(p))+'</div><div class="rtrack" style="height:'+TH+'px"><div class="rfill" style="background:'+colorOf(p)+'"></div></div><div class="rval">0</div>';
       el.style.transform='translateY(0px)';
       cont.appendChild(el);raceBars[p]=el;
     });
@@ -617,7 +683,7 @@
     const N=raceCount();
     arr.forEach((o,idx)=>{
       const el=raceBars[o.p];if(!el)return;
-      el.style.transform='translateY('+(idx*RACE_ROWH)+'px)';
+      el.style.transform='translateY('+(idx*raceRowHCur)+'px)';
       el.querySelector('.rfill').style.width=(o.v/raceMax*100)+'%';
       el.querySelector('.rval').textContent=o.v;
     });
@@ -696,6 +762,24 @@
     await save();toast('Jornada importada · '+fmtLong(date));renderEntry();go('dash');
   }
 
+  /* noticias */
+  function newsLink(u){return /^https?:\/\//i.test(u)?u:('https://'+u);}
+  function renderNews(){
+    const list=document.getElementById('newsList');if(!list)return;
+    const items=data.news||[];
+    if(!items.length){list.innerHTML='<div style="color:var(--faint);font-size:13.5px;padding:6px 0">Aún no hay noticias cargadas.</div>';return;}
+    list.innerHTML=items.map(function(it,idx){var u=newsLink(it.u||'');return '<div class="news-item"><span class="nsrc">'+escapeHtml(it.s||'—')+'</span><div class="nbody"><a class="ntitle" href="'+escapeHtml(u)+'" target="_blank" rel="noopener noreferrer">'+escapeHtml(it.t||u)+'</a><span class="nurl">'+escapeHtml(u)+'</span></div><button class="ndel" data-i="'+idx+'" title="Quitar">×</button></div>';}).join('');
+    list.querySelectorAll('.ndel').forEach(function(b){b.addEventListener('click',async function(){data.news.splice(parseInt(b.dataset.i),1);await save();renderNews();});});
+  }
+  (function(){var add=document.getElementById('newsAdd');if(!add)return;add.addEventListener('click',async function(){
+    var t=document.getElementById('newsTitle').value.trim(),s=document.getElementById('newsSource').value.trim(),u=document.getElementById('newsUrl').value.trim();
+    if(!u){toast('Falta el enlace','err');return;}
+    if(!data.news)data.news=[];
+    if(data.news.length>=10){toast('Máximo 10 noticias','err');return;}
+    data.news.push({t:t||u,s:s||'Fuente',u:u});
+    await save();document.getElementById('newsTitle').value='';document.getElementById('newsSource').value='';document.getElementById('newsUrl').value='';renderNews();toast('Noticia agregada');
+  });})();
+
   /* demo / export / reset */
   window.loadDemo=async function(){
     if(!data.participants.length)data.participants=[...SEED],data.aliases=Object.assign({},SEED_ALIAS);
@@ -719,7 +803,7 @@
     data.snapshots=[];selected=null;await save();renderEntry();renderDash();toast('Jornadas borradas');
   };
 
-  (async function init(){await load();const u=document.getElementById("upd");if(u&&ACTUALIZADO&&ACTUALIZADO!=="—")u.textContent="actualizado: "+ACTUALIZADO;renderDash();})();
+  (async function init(){await load();const u=document.getElementById("upd");if(u&&ACTUALIZADO&&ACTUALIZADO!=="—")u.textContent="actualizado: "+ACTUALIZADO;renderDash();renderNews();})();
 })();
 </script>
 
