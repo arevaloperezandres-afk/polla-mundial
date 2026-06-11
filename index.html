@@ -187,11 +187,11 @@
   .pchip{max-width:100%} .snapitem .d{word-break:break-word}
   /* bar chart race */
   #race{position:relative;width:100%;overflow:hidden}
-  .racebar{position:absolute;left:0;right:0;height:18px;display:flex;align-items:center;gap:7px;transition:transform .7s cubic-bezier(.4,0,.2,1)}
-  .racebar .rlabel{width:72px;flex:none;text-align:right;font-weight:700;font-size:10.5px;color:var(--ink);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+  .racebar{position:absolute;left:0;right:0;height:16px;display:flex;align-items:center;gap:7px;font-size:10.5px;transition:transform .65s cubic-bezier(.4,0,.2,1)}
+  .racebar .rlabel{width:70px;flex:none;text-align:right;font-weight:700;color:var(--ink);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
   .racebar .rtrack{flex:1;position:relative;height:11px;border-radius:4px;background:var(--paper2)}
   .racebar .rfill{position:absolute;left:0;top:0;bottom:0;width:0;min-width:3px;border-radius:4px;transition:width .8s cubic-bezier(.4,0,.2,1)}
-  .racebar .rval{flex:none;width:44px;text-align:left;font-weight:700;font-size:10.5px;color:var(--ink);font-variant-numeric:tabular-nums}
+  .racebar .rval{flex:none;width:42px;text-align:left;font-weight:700;color:var(--ink);font-variant-numeric:tabular-nums}
   .racectrl{display:flex;align-items:center;gap:12px;margin-top:18px}
   .racectrl input[type=range]{flex:1;accent-color:var(--green);height:4px}
   .racebig{font-size:16px;padding:14px 28px;border-radius:12px}
@@ -255,7 +255,7 @@
     <h1>Copa del <span class="em">Mundo</span> 2026</h1>
     <div class="sub">Tablero de seguimiento diario · la evolución del ranking de tu grupo</div>
   </div>
-  <div class="host-tag"><b id="pCount">32</b> participantes<br>11 jun – 19 jul 2026 · <span id="upd">actualizado: —</span></div>
+  <div class="host-tag"><b id="pCount">46</b> participantes<br>11 jun – 19 jul 2026 · <span id="upd">actualizado: —</span></div>
 </header>
 
 <nav>
@@ -446,25 +446,25 @@
 
 <script>
 (function(){
-  const KEY='polla_cm2026_v6';
+  const KEY='polla_cm2026_v7';
   const PALETTE=['#0f8a5f','#e5484d','#2f6df0','#dd9b06','#9333ea','#0891b2','#db2777','#65a30d','#dc2626','#1d4ed8','#c2410c','#0d9488','#7c3aed','#b91c1c','#0369a1','#a16207','#be123c','#047857','#4f46e5','#be185d','#0e7490','#15803d','#d946ef','#ca8a04'];
 
   // Participantes = nombres tal como aparecen en el grupo de 365Scores (24 miembros actuales)
-  const SEED=["Andrés Arévalo Pérez","John Galvis","tatin Garcia ( son wanda)","Miguel Linares","Juan Arévalo","Maria Carolina Otálora Arévalo","Avelino Bejarano Rodriguez","Jorge Calderon","James Pinzon","Daniel Felipe Cruz Villamil","Hugo Tovar Perez","Amparo Perez","Carlos Augusto Arevalo Castañeda","Oscar Tovar Perez","Andrés Felipe Guevara Ramírez","Carito P Gonzalezz","Orlando Bejarano","Himelda Arévalo Castañeda","Rafael Arevalo","Adrian Bejarano","Carlos A. Arevalo A.","Julieth Andrea Gonzalez","David Arevalo","Laura Ramírez","Diego Arevalo","ANGELA PATRICIA VALENCIA LOZANO","Omi Goku Arévalo Suárez","Maria Paula","Ana Dolores Arevalo de Arevalo","julian manuel riveros alvarado","Erika Bejarano","Daniel Bejarano"];
+  const SEED=["Omi Goku Arévalo Suárez", "Andrés Arévalo Pérez", "Andrés Felipe Guevara Ramírez", "Maria Villamil", "tatin Garcia ( son wanda)", "Deyanira Villamil", "Fredy", "Daniel Felipe Cruz Villamil", "Jorge Orlando Páez", "Santiago Páez Villamil", "Adriana Jiménez", "Amparo Perez", "Carlos Augusto Arevalo Castañeda", "Diego Arevalo", "ANGELA PATRICIA VALENCIA LOZANO", "Guillermo León Valencia", "Juliana Rodríguez Guzmán", "David Arevalo", "Laura Ramírez", "julian manuel riveros alvarado", "Adrian Bejarano", "Orlando Bejarano", "Avelino Bejarano Rodriguez", "Jorge Calderon", "Miguel Linares", "Deymer De La Torre", "Julieth Andrea Gonzalez", "Erika Bejarano", "Daniel Bejarano", "Hugo Tovar Perez", "Oscar Tovar Perez", "Carlos R.Coronado", "Hermogenes Tovar", "Jorge Yurgaqui", "Fanny Perez Martinez", "John Galvis", "James Pinzon", "Carito P Gonzalezz", "María Carolina Otálora Arévalo", "Rafael Arevalo", "Carlos A. Arevalo A.", "Jesus Alberto Arevalo", "Juan Arévalo", "Daniela Arevalo", "Maria Paula Arévalo", "Himelda Arévalo Castañeda"];
   // Etiqueta = nombre real (del Excel) para reconocer a cada quien; vacío = por confirmar
-  const SEED_ALIAS={"Andrés Arévalo Pérez":"Andrés Arévalo","John Galvis":"John Galvis","tatin Garcia ( son wanda)":"Martín García","Miguel Linares":"Miguel Linares","Juan Arévalo":"Juan Manuel Arévalo","Maria Carolina Otálora Arévalo":"Carolina Otálora","Avelino Bejarano Rodriguez":"Avelino Bejarano","Jorge Calderon":"Jorge Calderón","James Pinzon":"James Pinzón","Daniel Felipe Cruz Villamil":"Felipe Cruz","Hugo Tovar Perez":"Hugo Tovar","Amparo Perez":"Amparo Pérez","Carlos Augusto Arevalo Castañeda":"Augusto Arévalo","Oscar Tovar Perez":"Oscar Tovar","Andrés Felipe Guevara Ramírez":"Andrés Guevara","Carito P Gonzalezz":"Carolina Pérez","Orlando Bejarano":"Jose Orlando Bejarano","Himelda Arévalo Castañeda":"Tía Himelda Arévalo","Rafael Arevalo":"Rafael Arévalo","Adrian Bejarano":"Adrián Bejarano","Carlos A. Arevalo A.":"Carlos Alberto Arévalo","Julieth Andrea Gonzalez":"July Bejarano","David Arevalo":"David Arévalo","Laura Ramírez":"Laurita Ramírez","Diego Arevalo":"Diego Arévalo","ANGELA PATRICIA VALENCIA LOZANO":"Patricia Valencia","Omi Goku Arévalo Suárez":"Mayra Suárez","Maria Paula":"María Paula Arévalo","Ana Dolores Arevalo de Arevalo":"Tío Alberto Arévalo","julian manuel riveros alvarado":"Julián Riveros","Erika Bejarano":"Erika Bejarano","Daniel Bejarano":"Daniel Bejarano"};
-  const SEED_ACR={"Andrés Arévalo Pérez":"AAP","John Galvis":"JoGa","tatin Garcia ( son wanda)":"Tatin","Miguel Linares":"MiLi","Juan Arévalo":"JMAr","Maria Carolina Otálora Arévalo":"CaOt","Avelino Bejarano Rodriguez":"AvBe","Jorge Calderon":"JoCa","James Pinzon":"JaPi","Daniel Felipe Cruz Villamil":"FeCr","Hugo Tovar Perez":"HuTo","Amparo Perez":"AmPe","Carlos Augusto Arevalo Castañeda":"CAAC","Oscar Tovar Perez":"OsTo","Andrés Felipe Guevara Ramírez":"AnGue","Carito P Gonzalezz":"CaPe","Orlando Bejarano":"OrBe","Himelda Arévalo Castañeda":"HiAre","Rafael Arevalo":"RaAre","Adrian Bejarano":"AdBe","Carlos A. Arevalo A.":"AlbAre","Julieth Andrea Gonzalez":"JuGo","David Arevalo":"DAreP","Laura Ramírez":"LaRa","Diego Arevalo":"DieJou","ANGELA PATRICIA VALENCIA LOZANO":"PaVa","Omi Goku Arévalo Suárez":"Omi","Maria Paula":"MPAre","Ana Dolores Arevalo de Arevalo":"AnDAA","julian manuel riveros alvarado":"JuRi","Erika Bejarano":"EriBe","Daniel Bejarano":"DaBe"};
+  const SEED_ALIAS={"Omi Goku Arévalo Suárez": "Mayra Suárez", "Andrés Arévalo Pérez": "Andrés Arévalo", "Andrés Felipe Guevara Ramírez": "Andrés Guevara", "Maria Villamil": "Lina Villamil", "tatin Garcia ( son wanda)": "Martín García", "Deyanira Villamil": "Deyanira Villamil", "Fredy": "Fredy Villamil", "Daniel Felipe Cruz Villamil": "Felipe Cruz", "Jorge Orlando Páez": "Jorge Páez", "Santiago Páez Villamil": "David Santiago Páez", "Adriana Jiménez": "Adriana Jiménez", "Amparo Perez": "Amparo Pérez", "Carlos Augusto Arevalo Castañeda": "Augusto Arévalo", "Diego Arevalo": "Diego Arévalo", "ANGELA PATRICIA VALENCIA LOZANO": "Patricia Valencia", "Guillermo León Valencia": "Guillermo Valencia", "Juliana Rodríguez Guzmán": "Juliana Rodríguez", "David Arevalo": "David Arévalo", "Laura Ramírez": "Laurita Ramírez", "julian manuel riveros alvarado": "Julián Riveros", "Adrian Bejarano": "Adrián Bejarano", "Orlando Bejarano": "Jose Orlando Bejarano", "Avelino Bejarano Rodriguez": "Avelino Bejarano", "Jorge Calderon": "Jorge Calderón", "Miguel Linares": "Miguel Linares", "Deymer De La Torre": "Deymer de la Torre", "Julieth Andrea Gonzalez": "July Bejarano", "Erika Bejarano": "Erika Bejarano", "Daniel Bejarano": "Daniel Bejarano", "Hugo Tovar Perez": "Hugo Tovar Perez", "Oscar Tovar Perez": "Oscar Tovar", "Carlos R.Coronado": "Carlos Coronado", "Hermogenes Tovar": "Hermógenes Tovar", "Jorge Yurgaqui": "Jorge Yurgaqui", "Fanny Perez Martinez": "Fanny Pérez", "John Galvis": "John Galvis", "James Pinzon": "James Pinzón", "Carito P Gonzalezz": "Carolina Pérez", "María Carolina Otálora Arévalo": "Carolina Otálora", "Rafael Arevalo": "Rafael Arévalo", "Carlos A. Arevalo A.": "Carlos Alberto Arévalo", "Jesus Alberto Arevalo": "Tío Alberto Arévalo", "Juan Arévalo": "Juan Manuel Arévalo", "Daniela Arevalo": "Daniela Arévalo", "Maria Paula Arévalo": "María Paula Arévalo", "Himelda Arévalo Castañeda": "Tía Himelda Arévalo"};
+  const SEED_ACR={"Omi Goku Arévalo Suárez": "Omi", "Andrés Arévalo Pérez": "AAP", "Andrés Felipe Guevara Ramírez": "AnGue", "Maria Villamil": "MaVi", "tatin Garcia ( son wanda)": "Tatin", "Deyanira Villamil": "DeVi", "Fredy": "FrVi", "Daniel Felipe Cruz Villamil": "FeCr", "Jorge Orlando Páez": "JoPa", "Santiago Páez Villamil": "DaPa", "Adriana Jiménez": "AdJi", "Amparo Perez": "AmPe", "Carlos Augusto Arevalo Castañeda": "CAAC", "Diego Arevalo": "DieJou", "ANGELA PATRICIA VALENCIA LOZANO": "PaVa", "Guillermo León Valencia": "GuiLe", "Juliana Rodríguez Guzmán": "JuRo", "David Arevalo": "DAreP", "Laura Ramírez": "LaRa", "julian manuel riveros alvarado": "JuRi", "Adrian Bejarano": "AdBe", "Orlando Bejarano": "OrBe", "Avelino Bejarano Rodriguez": "AvBe", "Jorge Calderon": "JoCa", "Miguel Linares": "MiLi", "Deymer De La Torre": "DelTo", "Julieth Andrea Gonzalez": "JuGo", "Erika Bejarano": "EriBe", "Daniel Bejarano": "DaBe", "Hugo Tovar Perez": "HuTo", "Oscar Tovar Perez": "OsTo", "Carlos R.Coronado": "CarCo", "Hermogenes Tovar": "HerTo", "Jorge Yurgaqui": "JoYur", "Fanny Perez Martinez": "FaPe", "John Galvis": "JoGa", "James Pinzon": "JaPi", "Carito P Gonzalezz": "CaPe", "María Carolina Otálora Arévalo": "CaOt", "Rafael Arevalo": "RaAre", "Carlos A. Arevalo A.": "CAAA", "Jesus Alberto Arevalo": "AlAre", "Juan Arévalo": "JMAr", "Daniela Arevalo": "DaniA", "Maria Paula Arévalo": "MPAre", "Himelda Arévalo Castañeda": "HiAre"};
   const SEED_NEWS=[
-    {t:"México vs Sudáfrica: antecedentes y números del duelo inaugural",s:"ESPN",u:"https://espndeportes.espn.com/futbol/mundial/nota/_/id/16049783/mexico-mundial-2026-sorteo-grupo-a-sudafrica-corea-antecedentes"},
-    {t:"Análisis del Grupo A: México, Sudáfrica, Corea del Sur y Chequia",s:"RPP",u:"https://rpp.pe/futbol/mundial-2026/analisis-del-grupo-a-del-mundial-2026-mexico-sudafrica-corea-del-sur-y-republica-checa-noticia-1692233"},
+    {t:"México vs Sudáfrica: previa, alineaciones y dónde ver (TV Colombia)",s:"CNN",u:"https://cnnespanol.cnn.com/2026/06/10/deportes/mexico-sudafrica-grupoa-mundial-2026-orix"},
+    {t:"México vs Sudáfrica: previa, predicciones y alineaciones",s:"Sports Illustrated",u:"https://www.si.com/es-us/futbol/mexico-vs-sudafrica-previa-predicciones-y-alineaciones-11-6-2026"},
+    {t:"Posibles alineaciones de México para el debut mundialista",s:"Claro Sports",u:"https://www.clarosports.com/futbol/mundial-2026/mexico-vs-sudafrica-mundial-2026-en-vivo-posibles-alineaciones-de-la-seleccion-mexicana-para-el-partido-del-11-de-junio/"},
+    {t:"Posible 11 titular de México vs Sudáfrica",s:"N+",u:"https://www.nmas.com.mx/deportes/futbol/alineaciones-mexico-vs-sudafrica-posible-once-titular-partido-inaugural-mundial-2026/"},
+    {t:"México vs Sudáfrica: antecedentes y números del duelo",s:"ESPN",u:"https://espndeportes.espn.com/futbol/mundial/nota/_/id/16049783/mexico-mundial-2026-sorteo-grupo-a-sudafrica-corea-antecedentes"},
+    {t:"Análisis del Grupo A: México, Sudáfrica, Corea y Chequia",s:"RPP",u:"https://rpp.pe/futbol/mundial-2026/analisis-del-grupo-a-del-mundial-2026-mexico-sudafrica-corea-del-sur-y-republica-checa-noticia-1692233"},
     {t:"México vs Sudáfrica: pronóstico y claves del partido",s:"Squawka",u:"https://www.squawka.com/us-es/news/mundial-2026/mexico-vs-sudafrica-pronostico-mundial-2026/"},
-    {t:"Los favoritos para ganar cada grupo del Mundial 2026",s:"Sports Illustrated",u:"https://www.si.com/es-us/futbol/los-favoritos-para-ganar-cada-grupo-del-mundial-2026"},
-    {t:"Inauguración del Mundial 2026: día, horario, TV y cómo ver",s:"La Nación",u:"https://www.lanacion.com.ar/deportes/futbol/inauguracion-del-mundial-2026-dia-horario-tv-y-como-ver-online-nid09062026/"},
-    {t:"Ceremonia inaugural del Mundial 2026: artistas y horarios",s:"Olympics",u:"https://www.olympics.com/es/noticias/ceremonia-inaugural-mundial-2026"},
-    {t:"Partido inaugural en el Azteca: contexto histórico",s:"ESPN",u:"https://espndeportes.espn.com/futbol/mundial/nota/_/id/16043448/mundial-2026-cual-sera-partido-inaugural-mexico-eeuu-canada"},
-    {t:"Inauguración Mundial 2026: guía completa",s:"Digital Trends",u:"https://es.digitaltrends.com/deportes/inauguracion-mundial-2026/"},
-    {t:"A qué hora es la ceremonia de apertura del Mundial 2026",s:"Yahoo",u:"https://es-us.noticias.yahoo.com/deportes/a-que-hora-es-la-ceremonia-de-apertura-del-mundial-2026-de-este-jueves-11-de-junio-185355652.html"},
-    {t:"¿Cuándo empieza el Mundial 2026? Fecha de inauguración",s:"RPP",u:"https://rpp.pe/futbol/mundial-2026/cuando-empieza-el-mundial-2026-fecha-de-inauguracion-noticia-1691284"}
+    {t:"Inauguración del Mundial 2026: día, horario y cómo ver",s:"La Nación",u:"https://www.lanacion.com.ar/deportes/futbol/inauguracion-del-mundial-2026-dia-horario-tv-y-como-ver-online-nid09062026/"},
+    {t:"Ceremonia inaugural: artistas, horarios y detalles",s:"Olympics",u:"https://www.olympics.com/es/noticias/ceremonia-inaugural-mundial-2026"},
+    {t:"Inauguración Mundial 2026: guía completa",s:"Digital Trends",u:"https://es.digitaltrends.com/deportes/inauguracion-mundial-2026/"}
   ];
 
   let data={participants:[],snapshots:[],aliases:{},acronyms:{},news:[]};
@@ -652,8 +652,8 @@
   /* bar chart race (carrera de puntos) */
   let raceTimer=null,raceFrame=0,raceBars={},raceN=10,raceMax=1;
   let raceRowHCur=22;
-  function raceRowH(N){return N<=12?28:(N<=24?22:17);}
-  function raceTrackH(rh){return Math.max(8,Math.min(16,rh-7));}
+  function raceRowH(N){return N<=12?26:(N<=24?20:(N<=36?16:13));}
+  function raceTrackH(rh){return Math.max(7,Math.min(15,rh-6));}
   function raceCount(){return Math.min(raceN==='all'?data.participants.length:raceN,data.participants.length);}
   function markRaceN(){document.querySelectorAll('.raceN').forEach(x=>x.classList.toggle('active',(x.dataset.n==='all'?'all':parseInt(x.dataset.n))===raceN));}
   function stopRace(){if(raceTimer){clearInterval(raceTimer);raceTimer=null;}const b=document.getElementById('racePlay');if(b)b.textContent='\u25b6 Reproducir';}
@@ -661,13 +661,13 @@
     stopRace();
     const cont=document.getElementById('race');if(!cont)return;
     const N=raceCount();markRaceN();
-    const ROWH=raceRowH(N);raceRowHCur=ROWH;const TH=raceTrackH(ROWH);
+    const ROWH=raceRowH(N);raceRowHCur=ROWH;const TH=raceTrackH(ROWH);const FS=ROWH<=15?9.5:(ROWH<=20?10:10.5);
     raceMax=1;snaps.forEach(s=>data.participants.forEach(p=>{const v=s.points[p]??0;if(v>raceMax)raceMax=v;}));
     cont.style.height=(N*ROWH)+'px';
     cont.innerHTML='';raceBars={};
     data.participants.forEach(p=>{
       const el=document.createElement('div');el.className='racebar';
-      el.style.height=(ROWH-3)+'px';
+      el.style.height=(ROWH-3)+'px';el.style.fontSize=FS+'px';
       el.innerHTML='<div class="rlabel">'+escapeHtml(acrOf(p))+'</div><div class="rtrack" style="height:'+TH+'px"><div class="rfill" style="background:'+colorOf(p)+'"></div></div><div class="rval">0</div>';
       el.style.transform='translateY(0px)';
       cont.appendChild(el);raceBars[p]=el;
