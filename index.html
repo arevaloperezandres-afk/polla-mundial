@@ -60,7 +60,7 @@
   .tab.active{background:var(--card);color:var(--ink);box-shadow:0 2px 10px -4px rgba(15,31,61,.25),inset 0 0 0 1px var(--line)}
   .tab .ic{font-size:16px}
 
-  nav [data-view="entry"],nav [data-view="people"],#newsEditor,.news-item .ndel{display:none}
+  nav [data-view="entry"],nav [data-view="people"],#newsEditor,.news-item .ndel,#predsImport{display:none}
   main{max-width:1200px;margin:0 auto}
   .view{display:none;animation:fade .3s ease}
   .view.active{display:block}
@@ -212,6 +212,9 @@
   .news-item .nurl{font-size:11.5px;color:var(--faint);display:block;margin-top:2px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
   .news-item .ndel{background:none;border:none;color:var(--faint);cursor:pointer;font-size:18px;line-height:1;flex:none;padding:0 4px}
   .news-item .ndel:hover{color:var(--bad)}
+  #predsImport{margin-bottom:18px}
+  #predText{min-height:88px;font-size:14px}
+  .predcol{font-size:12.5px;color:var(--muted);max-width:160px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
   /* reglas sin recuadros */
   .rules-page{padding:2px}
   .rules-title{font-size:clamp(20px,2.4vw,24px);font-weight:700;color:var(--ink);margin-bottom:6px}
@@ -380,6 +383,14 @@
       <div class="chips" id="peopleChips"></div>
     </div>
     <div class="card card-pad" style="margin-top:18px">
+      <div class="card-h"><h2>Pronósticos · campeón y goleador</h2></div>
+      <div id="predsImport">
+        <p class="news-help">Una línea por participante con formato <b>Nombre, Campeón, Goleador</b> (coma, tabulación o ";"). Reconozco el nombre real o el de 365Scores. Se muestran como columnas en la tabla del Tablero.</p>
+        <textarea id="predText" rows="4" placeholder="Andrés Arévalo Pérez, España, Harry Kane&#10;Mayra Suárez, Argentina, Messi"></textarea>
+        <div style="display:flex;gap:8px;margin-top:10px"><button class="btn primary" id="predParse" type="button">Importar pronósticos</button></div>
+      </div>
+    </div>
+    <div class="card card-pad" style="margin-top:18px">
       <div class="card-h"><h2>Datos y respaldo</h2></div>
       <p style="color:var(--muted);font-size:13.5px;line-height:1.55;margin-bottom:14px">Tus datos se guardan en este tablero entre sesiones. Exporta un respaldo de vez en cuando o lleva la evolución a Excel.</p>
       <div style="display:flex;gap:10px;flex-wrap:wrap">
@@ -446,7 +457,8 @@
 
 <script>
 (function(){
-  const KEY='polla_cm2026_v7';
+  const KEY='polla_cm2026_v8';
+  const IS_VIEWER=true;
   const PALETTE=['#0f8a5f','#e5484d','#2f6df0','#dd9b06','#9333ea','#0891b2','#db2777','#65a30d','#dc2626','#1d4ed8','#c2410c','#0d9488','#7c3aed','#b91c1c','#0369a1','#a16207','#be123c','#047857','#4f46e5','#be185d','#0e7490','#15803d','#d946ef','#ca8a04'];
 
   // Participantes = nombres tal como aparecen en el grupo de 365Scores (24 miembros actuales)
@@ -466,8 +478,9 @@
     {t:"Ceremonia inaugural: artistas, horarios y detalles",s:"Olympics",u:"https://www.olympics.com/es/noticias/ceremonia-inaugural-mundial-2026"},
     {t:"Inauguración Mundial 2026: guía completa",s:"Digital Trends",u:"https://es.digitaltrends.com/deportes/inauguracion-mundial-2026/"}
   ];
+  const SEED_PREDS={"Andrés Arévalo Pérez":{"champ":"España","scorer":"Harry Kane"}};
 
-  let data={participants:[],snapshots:[],aliases:{},acronyms:{},news:[]};
+  let data={participants:[],snapshots:[],aliases:{},acronyms:{},news:[],preds:{}};
   let charts={};
   let selected=null;     // Set de nombres visibles en gráficos
   let editingDate=null;
@@ -475,7 +488,7 @@
   const EMBEDDED_SNAPSHOTS=[];
   const ACTUALIZADO="—";
   async function load(){
-    data={participants:[...SEED],aliases:Object.assign({},SEED_ALIAS),acronyms:Object.assign({},SEED_ACR),snapshots:JSON.parse(JSON.stringify(EMBEDDED_SNAPSHOTS)),news:JSON.parse(JSON.stringify(SEED_NEWS))};
+    data={participants:[...SEED],aliases:Object.assign({},SEED_ALIAS),acronyms:Object.assign({},SEED_ACR),snapshots:JSON.parse(JSON.stringify(EMBEDDED_SNAPSHOTS)),news:JSON.parse(JSON.stringify(SEED_NEWS)),preds:JSON.parse(JSON.stringify(SEED_PREDS))};
   }
   async function save(){return true;}
 
@@ -627,7 +640,7 @@
     $('#kpis').innerHTML=k.map(x=>`<div class="kpi" style="--accent:${x.c}"><div class="lab">${x.lab}</div><div class="big">${x.big}</div><div class="meta">${x.meta}</div></div>`).join('');
   }
   function renderStandTable(stand,prev){
-    let h=`<thead><tr><th>Pos</th><th>Participante</th><th class="r">Puntos</th><th class="r hidem">+ Jornada</th><th class="r hidem">Exactos</th><th class="r">Dif. l\u00edder</th></tr></thead><tbody>`;
+    let h=`<thead><tr><th>Pos</th><th>Participante</th><th>🏆 Campeón</th><th>⚽ Goleador</th><th class="r">Puntos</th><th class="r hidem">+ Jornada</th><th class="r hidem">Exactos</th><th class="r">Dif. l\u00edder</th></tr></thead><tbody>`;
     const lead=stand[0].pts;
     stand.forEach(s=>{
       const cls=s.rank===1?'gold':s.rank===2?'sil':s.rank===3?'brz':'';
@@ -637,6 +650,8 @@
       h+=`<tr data-name="${escapeHtml(s.p.toLowerCase())}">
         <td><div class="rankcell"><span class="rankno ${cls}">${s.rank}</span>${mv}</div></td>
         <td><div class="rankcell"><span class="pdot" style="background:${colorOf(s.p)}"></span><span class="pname">${escapeHtml(s.p)}</span>${data.acronyms[s.p]?`<span class="acrbadge">${escapeHtml(data.acronyms[s.p])}</span>`:''}</div></td>
+        <td class="predcol">${escapeHtml(predGet(s.p,'champ')||'—')}</td>
+        <td class="predcol">${escapeHtml(predGet(s.p,'scorer')||'—')}</td>
         <td class="r"><span class="pts">${s.pts}</span></td>
         <td class="r hidem"><span class="gain ${s.gain<=0?'zero':''}">${gain}</span></td>
         <td class="r hidem mono" style="color:var(--muted)">${s.ex||'\u2014'}</td>
@@ -778,6 +793,43 @@
     if(data.news.length>=10){toast('Máximo 10 noticias','err');return;}
     data.news.push({t:t||u,s:s||'Fuente',u:u});
     await save();document.getElementById('newsTitle').value='';document.getElementById('newsSource').value='';document.getElementById('newsUrl').value='';renderNews();toast('Noticia agregada');
+  });})();
+
+  /* pronósticos */
+  function predGet(p,k){return (data.preds&&data.preds[p]&&data.preds[p][k])?data.preds[p][k]:'';}
+  function renderPreds(){
+    const body=document.getElementById('predBody');if(!body)return;
+    const hint=document.getElementById('predHint');
+    if(hint){const w=data.participants.filter(p=>predGet(p,'champ')||predGet(p,'scorer')).length;hint.textContent=w+' de '+data.participants.length+' con pronóstico';}
+    body.innerHTML=data.participants.map(function(p,i){
+      var nm='<b>'+escapeHtml(acrOf(p))+'</b>'+(data.aliases[p]?' <span style="color:var(--faint);font-weight:500">'+escapeHtml(data.aliases[p])+'</span>':'');
+      if(IS_VIEWER){
+        return '<tr><td>'+(i+1)+'</td><td>'+nm+'</td><td>'+escapeHtml(predGet(p,'champ')||'\u2014')+'</td><td>'+escapeHtml(predGet(p,'scorer')||'\u2014')+'</td></tr>';
+      }
+      return '<tr><td>'+(i+1)+'</td><td>'+nm+'</td><td><input class="predin" data-p="'+escapeHtml(p)+'" data-k="champ" value="'+escapeHtml(predGet(p,'champ'))+'" placeholder="\u2014"></td><td><input class="predin" data-p="'+escapeHtml(p)+'" data-k="scorer" value="'+escapeHtml(predGet(p,'scorer'))+'" placeholder="\u2014"></td></tr>';
+    }).join('');
+    if(!IS_VIEWER){
+      body.querySelectorAll('.predin').forEach(function(inp){inp.addEventListener('change',async function(){var p=inp.dataset.p,k=inp.dataset.k;if(!data.preds[p])data.preds[p]={};data.preds[p][k]=inp.value.trim();await save();renderPreds();});});
+    }
+  }
+  function parsePreds(text){
+    const idx=nameIndex();const set={},un=[];
+    text.split(/\r?\n/).forEach(function(line){
+      var raw=line.trim();if(!raw)return;
+      var parts=raw.includes('\t')?raw.split('\t'):(raw.includes(';')?raw.split(';'):raw.split(','));
+      var name=(parts[0]||'').trim(),champ=(parts[1]||'').trim(),scorer=(parts[2]||'').trim();
+      var p=idx[norm(name)];
+      if(p)set[p]={champ:champ,scorer:scorer};else un.push(raw);
+    });
+    return {set:set,un:un};
+  }
+  (function(){var b=document.getElementById('predParse');if(!b)return;b.addEventListener('click',async function(){
+    var r=parsePreds(document.getElementById('predText').value||'');
+    var n=Object.keys(r.set).length;
+    if(!n){toast('No reconocí ningún participante','err');return;}
+    Object.keys(r.set).forEach(function(p){if(!data.preds[p])data.preds[p]={};data.preds[p].champ=r.set[p].champ;data.preds[p].scorer=r.set[p].scorer;});
+    await save();renderDash();document.getElementById('predText').value='';
+    toast(n+' pronóstico(s) importado(s)'+(r.un.length?(' \u00b7 '+r.un.length+' sin reconocer'):''));
   });})();
 
   /* demo / export / reset */
