@@ -60,7 +60,7 @@
   .tab.active{background:var(--card);color:var(--ink);box-shadow:0 2px 10px -4px rgba(15,31,61,.25),inset 0 0 0 1px var(--line)}
   .tab .ic{font-size:16px}
 
-  nav [data-view="entry"],nav [data-view="people"],#newsEditor,.news-item .ndel,#predsImport{display:none}
+  nav [data-view="entry"],nav [data-view="people"],#newsEditor,.news-item .ndel,#predsImport,#elimEditor{display:none}
   main{max-width:1200px;margin:0 auto}
   .view{display:none;animation:fade .3s ease}
   .view.active{display:block}
@@ -194,6 +194,13 @@
   .racebar .rval{flex:none;width:42px;text-align:left;font-weight:700;color:var(--ink);font-variant-numeric:tabular-nums}
   .racectrl{display:flex;align-items:center;gap:12px;margin-top:18px}
   .racectrl input[type=range]{flex:1;accent-color:var(--green);height:4px}
+  .raceaxis{margin-top:16px}
+  .raxis-track{position:relative;height:6px;background:var(--paper2);border-radius:4px;margin-bottom:30px}
+  .raxis-fill{position:absolute;left:0;top:0;height:100%;background:var(--green);border-radius:4px;width:0;transition:width .35s ease}
+  .raxis-ticks{position:absolute;left:0;right:0;top:0;height:0}
+  .raxis-tick{position:absolute;top:9px;width:1px;height:5px;background:var(--line);transform:translateX(-50%)}
+  .raxis-lab{position:absolute;top:7px;left:50%;transform:translateX(-50%);font-size:9.5px;color:var(--faint);font-variant-numeric:tabular-nums;white-space:nowrap}
+  .raxis-marker{position:absolute;top:50%;left:0;width:13px;height:13px;border-radius:50%;background:var(--green);border:2px solid #fff;box-shadow:0 1px 4px rgba(0,0,0,.3);transform:translate(-50%,-50%);transition:left .35s ease;z-index:2}
   .racebig{font-size:16px;padding:14px 28px;border-radius:12px}
   .raceopts{display:flex;align-items:center;gap:8px;margin-bottom:16px;flex-wrap:wrap}
   .raceopts .lb{font-size:12px;font-weight:700;color:var(--muted);text-transform:uppercase;letter-spacing:.08em;margin-right:2px}
@@ -215,6 +222,56 @@
   #predsImport{margin-bottom:18px}
   #predText{min-height:88px;font-size:14px}
   .predcol{font-size:12.5px;color:var(--muted);max-width:160px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+  .chelim{text-decoration:line-through;color:var(--bad)}
+  .distgrid{display:grid;grid-template-columns:1fr 1fr;gap:26px}
+  .distsub{font-weight:700;font-size:13px;color:var(--ink);margin-bottom:11px;display:flex;align-items:center;justify-content:center;gap:8px;flex-wrap:wrap;text-align:center}
+  .alivestat{font-weight:600;font-size:11.5px;color:var(--good)}
+  .distlist{display:flex;flex-direction:column;gap:7px}
+  .distrow{display:flex;align-items:center;gap:9px;font-size:13px}
+  .distlabel{width:118px;flex:none;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;color:var(--ink)}
+  .distbarwrap{flex:1;height:10px;background:var(--paper2);border-radius:5px;overflow:hidden}
+  .distbar{display:block;height:100%;background:var(--green);border-radius:5px}
+  .distcount{width:24px;text-align:right;font-weight:700;color:var(--muted);font-variant-numeric:tabular-nums}
+  .distrow.elim .distlabel{text-decoration:line-through;color:var(--bad)}
+  .distrow.elim .distbar{background:var(--bad);opacity:.5}
+  .cflag{margin-right:5px}
+  .zrow.zr1{background:rgba(212,160,23,.07)} .zrow.zr2{background:rgba(154,163,178,.08)} .zrow.zr3{background:rgba(189,127,78,.07)}
+  .jdlj{display:flex;align-items:center;justify-content:center;text-align:center;gap:14px;background:linear-gradient(90deg,rgba(31,111,235,.08),rgba(31,111,235,.03));border:1px solid var(--line);border-radius:16px;padding:18px 22px;margin:30px 0}
+  #dashContent{border-top:1px solid transparent}
+  .jdlj-ic{font-size:26px;line-height:1}
+  .jdlj-lab{font-size:10.5px;text-transform:uppercase;letter-spacing:.07em;color:var(--muted);font-weight:700}
+  .jdlj-main{font-size:15px;color:var(--ink);margin-top:2px}
+  .jdlj-gain{color:var(--good);font-weight:700}
+  .prizegrid{display:grid;grid-template-columns:1fr 1fr 1fr;gap:12px}
+  .pz{border:1px solid var(--line);border-radius:16px;padding:24px 20px;display:flex;flex-direction:column;gap:6px;position:relative;overflow:hidden;align-items:center;text-align:center;justify-content:center;min-height:128px}
+  .pz:before{content:"";position:absolute;top:0;left:0;right:0;height:4px}
+  .pz.gold:before{background:var(--gold)} .pz.sil:before{background:#9aa3b2} .pz.brz:before{background:#bd7f4e}
+  .pz-pos{font-weight:700;font-size:13px;color:var(--muted);text-transform:uppercase;letter-spacing:.04em}
+  .pz-amt{font-size:27px;font-weight:800;color:var(--ink);font-variant-numeric:tabular-nums;line-height:1.1}
+  .pz-who{font-size:15px;color:var(--ink);font-weight:600;margin-top:4px}
+  .pz-who.pz-empty{color:var(--faint);font-weight:500}
+  .pz-pts{font-size:12.5px;color:var(--muted)}
+  .streaklist{display:flex;flex-wrap:wrap;gap:9px;justify-content:center}
+  .streakrow{display:flex;align-items:center;gap:6px;background:var(--paper);border:1px solid var(--line);border-radius:999px;padding:6px 12px;font-size:13px}
+  .streak-fire{font-size:14px}
+  .streak-n{font-weight:800;color:var(--coral)}
+  .streak-name{color:var(--ink)}
+  .duelpick{display:flex;align-items:center;gap:10px;margin-bottom:16px;flex-wrap:wrap}
+  .duelsel{flex:1;min-width:130px;background:var(--paper);border:1px solid var(--line);border-radius:10px;padding:9px 11px;font-family:inherit;font-size:13.5px;color:var(--ink)}
+  .duelvs{font-weight:800;color:var(--muted)}
+  .duelgrid{display:grid;grid-template-columns:1fr 1fr;gap:14px}
+  .duelcard{border:1px solid var(--line);border-radius:14px;padding:14px}
+  .duelname{font-weight:700;font-size:15px;margin-bottom:10px;color:var(--ink)}
+  .duelrow{display:flex;justify-content:space-between;align-items:center;padding:6px 0;border-bottom:1px solid var(--line2);font-size:13px;gap:10px}
+  .duelrow:last-child{border-bottom:none}
+  .duelrow .dl{color:var(--muted);flex:none}
+  .duelrow .dv{font-weight:600;color:var(--ink);text-align:right}
+  .duelrow.win .dv{color:var(--good)}
+  .duelverdict{text-align:center;margin-top:14px;font-size:14px;color:var(--ink)}
+  .duelspark{margin-top:14px;border:1px solid var(--line);border-radius:12px;padding:10px;background:var(--paper)}
+  .duellegend{display:flex;gap:18px;justify-content:center;flex-wrap:wrap;margin-bottom:9px}
+  .dleg{display:flex;align-items:center;gap:7px;font-size:12.5px;color:var(--ink);font-weight:600}
+  .dleg-line{width:18px;height:3px;border-radius:2px;display:inline-block;flex:none}
   /* reglas sin recuadros */
   .rules-page{padding:2px}
   .rules-title{font-size:clamp(20px,2.4vw,24px);font-weight:700;color:var(--ink);margin-bottom:6px}
@@ -244,6 +301,9 @@
     table{font-size:13px}
     .rules-cols{gap:18px}
     .news-form{grid-template-columns:1fr}
+    .distgrid{grid-template-columns:1fr;gap:18px}
+    .prizegrid{grid-template-columns:1fr}
+    .duelgrid{grid-template-columns:1fr}
     .racebig{font-size:15px;padding:13px 22px}
   }
   @media(max-width:520px){
@@ -280,9 +340,31 @@
     </div></div>
 
     <div id="dashContent" style="display:none">
+      <div id="jdljBanner" class="jdlj" style="display:none"></div>
       <div class="kpis" id="kpis"></div>
+    <div class="card card-pad" id="prizeWrap" style="margin-top:18px">
+      <div class="card-h"><h2>Zona de Premios (provisional)</h2><span class="hint">bolsa total $2.350.000 · si terminara hoy</span></div>
+      <div class="prizegrid" id="prizeGrid"></div>
+    </div>
+    <div class="card card-pad" id="distribWrap" style="margin-top:18px;display:none">
+      <div class="card-h"><h2>Distribución de pronósticos</h2><span class="hint" id="distHint"></span></div>
+      <div class="distgrid">
+        <div>
+          <div class="distsub">🏆 Campeón <span id="aliveStat" class="alivestat"></span></div>
+          <div id="distChamp" class="distlist"></div>
+        </div>
+        <div>
+          <div class="distsub">⚽ Goleador</div>
+          <div id="distScorer" class="distlist"></div>
+        </div>
+      </div>
+    </div>
+    <div class="card card-pad" id="streakWrap" style="margin-top:18px;display:none">
+      <div class="card-h"><h2>Rachas de plenos</h2><span class="hint">jornadas seguidas con al menos un marcador exacto</span></div>
+      <div id="streakList" class="streaklist"></div>
+    </div>
 
-      <div class="card card-pad">
+      <div class="card card-pad" style="margin-top:18px">
         <div class="card-h">
           <h2>Clasificación actual</h2>
           <div class="tsearch"><input type="text" id="tableSearch" placeholder="Buscar participante…"></div>
@@ -294,6 +376,15 @@
   </section>
 
   <section class="view" id="view-evol">
+    <div class="card card-pad" id="duelWrap" style="margin-top:18px">
+      <div class="card-h"><h2>Duelos</h2><span class="hint">compara dos participantes</span></div>
+      <div class="duelpick">
+        <select id="duelA" class="duelsel"></select>
+        <span class="duelvs">vs</span>
+        <select id="duelB" class="duelsel"></select>
+      </div>
+      <div id="duelBody"></div>
+    </div>
     <div id="evolEmpty" class="card"><div class="empty">
       <div class="icon">📈</div>
       <h2>Aún no hay evolución que mostrar</h2>
@@ -313,6 +404,13 @@
           <button class="btn primary racebig" id="racePlay" type="button">▶ Reproducir</button>
           <button class="btn ghost" id="raceReset" type="button">⟲ Reiniciar</button>
           <input type="range" id="raceSlider" min="0" max="0" value="0" step="1">
+        </div>
+        <div class="raceaxis" id="raceAxis">
+          <div class="raxis-track">
+            <div class="raxis-fill" id="raxisFill"></div>
+            <div class="raxis-marker" id="raxisMarker"></div>
+            <div class="raxis-ticks" id="raxisTicks"></div>
+          </div>
         </div>
       </div>
     </div>
@@ -391,6 +489,14 @@
       </div>
     </div>
     <div class="card card-pad" style="margin-top:18px">
+      <div class="card-h"><h2>Equipos eliminados · termómetro del campeón</h2></div>
+      <div id="elimEditor">
+        <p class="news-help">Lista los países ya eliminados (uno por línea o separados por coma). Los pronósticos de campeón de esos equipos se marcan en rojo/tachado y bajan el contador de "campeones vivos".</p>
+        <textarea id="elimText" rows="3" placeholder="Ej: Catar, Canadá, Ghana"></textarea>
+        <div style="display:flex;gap:8px;margin-top:10px"><button class="btn primary" id="elimSave" type="button">Guardar eliminados</button></div>
+      </div>
+    </div>
+    <div class="card card-pad" style="margin-top:18px">
       <div class="card-h"><h2>Datos y respaldo</h2></div>
       <p style="color:var(--muted);font-size:13.5px;line-height:1.55;margin-bottom:14px">Tus datos se guardan en este tablero entre sesiones. Exporta un respaldo de vez en cuando o lleva la evolución a Excel.</p>
       <div style="display:flex;gap:10px;flex-wrap:wrap">
@@ -457,7 +563,7 @@
 
 <script>
 (function(){
-  const KEY='polla_cm2026_v9';
+  const KEY='polla_cm2026_v11';
   const IS_VIEWER=true;
   const PALETTE=['#0f8a5f','#e5484d','#2f6df0','#dd9b06','#9333ea','#0891b2','#db2777','#65a30d','#dc2626','#1d4ed8','#c2410c','#0d9488','#7c3aed','#b91c1c','#0369a1','#a16207','#be123c','#047857','#4f46e5','#be185d','#0e7490','#15803d','#d946ef','#ca8a04'];
 
@@ -467,6 +573,7 @@
   const SEED_ALIAS={"Omi Goku Arévalo Suárez": "Mayra Suárez", "Andrés Arévalo Pérez": "Andrés Arévalo", "Andrés Felipe Guevara Ramírez": "Andrés Guevara", "Maria Villamil": "Lina Villamil", "tatin Garcia ( son wanda)": "Martín García", "DEYANIRA VILLAMIL": "Deyanira Villamil", "Fredy": "Fredy Villamil", "Daniel Felipe Cruz Villamil": "Felipe Cruz", "Jorge Orlando Páez Murcia": "Jorge Páez", "Santiago Páez Villamil": "David Santiago Páez", "Adriana Jiménez": "Adriana Jiménez", "Amparo Perez": "Amparo Pérez", "Carlos Augusto Arevalo Castañeda": "Augusto Arévalo", "Diego Arevalo": "Diego Arévalo", "ANGELA PATRICIA VALENCIA LOZANO": "Patricia Valencia", "Guillermo León Valencia": "Guillermo Valencia", "Juliana Rodríguez Guzmán": "Juliana Rodríguez", "David Arevalo": "David Arévalo", "Laura Ramírez": "Laurita Ramírez", "julian manuel riveros alvarado": "Julián Riveros", "Adrian Bejarano": "Adrián Bejarano", "Orlando Bejarano": "Jose Orlando Bejarano", "Avelino Bejarano Rodriguez": "Avelino Bejarano", "Jorge Calderon": "Jorge Calderón", "Miguel Linares": "Miguel Linares", "Deymer De La Torre": "Deymer de la Torre", "Julieth Andrea Gonzalez": "July Bejarano", "Erika Bejarano": "Erika Bejarano", "Daniel Bejarano": "Daniel Bejarano", "Felipe Hernández": "Felipe Hernández", "Hugo Tovar Perez": "Hugo Tovar Perez", "Oscar Tovar Perez": "Oscar Tovar", "Carlos R.Coronado": "Carlos Coronado", "Hermogenes Tovar": "Hermógenes Tovar", "Jorge Yurgaqui": "Jorge Yurgaqui", "Fanny Perez Martinez": "Fanny Pérez", "John Galvis": "John Galvis", "James Pinzon": "James Pinzón", "Carito P Gonzalezz": "Carolina Pérez", "María Carolina Otálora Arévalo": "Carolina Otálora", "Rafael Arevalo": "Rafael Arévalo", "Carlos A. Arevalo A.": "Carlos Alberto Arévalo", "Jesus Alberto Arevalo": "Tío Alberto Arévalo", "Juan Arévalo": "Juan Manuel Arévalo", "Daniela Arevalo": "Daniela Arévalo", "Maria Paula Arévalo": "María Paula Arévalo", "Himelda Arévalo Castañeda": "Tía Himelda Arévalo"};
   const SEED_ACR={"Omi Goku Arévalo Suárez": "Omi", "Andrés Arévalo Pérez": "AAP", "Andrés Felipe Guevara Ramírez": "AnGue", "Maria Villamil": "MaVi", "tatin Garcia ( son wanda)": "Tatin", "DEYANIRA VILLAMIL": "DeVi", "Fredy": "FrVi", "Daniel Felipe Cruz Villamil": "FeCr", "Jorge Orlando Páez Murcia": "JoPa", "Santiago Páez Villamil": "DaPa", "Adriana Jiménez": "AdJi", "Amparo Perez": "AmPe", "Carlos Augusto Arevalo Castañeda": "CAAC", "Diego Arevalo": "DieJou", "ANGELA PATRICIA VALENCIA LOZANO": "PaVa", "Guillermo León Valencia": "GuiLe", "Juliana Rodríguez Guzmán": "JuRo", "David Arevalo": "DAreP", "Laura Ramírez": "LaRa", "julian manuel riveros alvarado": "JuRi", "Adrian Bejarano": "AdBe", "Orlando Bejarano": "OrBe", "Avelino Bejarano Rodriguez": "AvBe", "Jorge Calderon": "JoCa", "Miguel Linares": "MiLi", "Deymer De La Torre": "DelTo", "Julieth Andrea Gonzalez": "JuGo", "Erika Bejarano": "EriBe", "Daniel Bejarano": "DaBe", "Felipe Hernández": "FeHe", "Hugo Tovar Perez": "HuTo", "Oscar Tovar Perez": "OsTo", "Carlos R.Coronado": "CarCo", "Hermogenes Tovar": "HerTo", "Jorge Yurgaqui": "JoYur", "Fanny Perez Martinez": "FaPe", "John Galvis": "JoGa", "James Pinzon": "JaPi", "Carito P Gonzalezz": "CaPe", "María Carolina Otálora Arévalo": "CaOt", "Rafael Arevalo": "RaAre", "Carlos A. Arevalo A.": "CAAA", "Jesus Alberto Arevalo": "AlAre", "Juan Arévalo": "JMAr", "Daniela Arevalo": "DaniA", "Maria Paula Arévalo": "MPAre", "Himelda Arévalo Castañeda": "HiAre"};
   const SEED_NEWS=[
+    {t:"México 2-0 Sudáfrica: resumen y goles del debut",s:"Telemundo",u:"https://www.telemundo.com/noticias/noticias-telemundo/internacional/live-blog/mundial-2026-en-vivo-resultados-goles-y-cobertura-minuto-a-minuto-rcna349473"},
     {t:"México vs Sudáfrica: previa, alineaciones y dónde ver (TV Colombia)",s:"CNN",u:"https://cnnespanol.cnn.com/2026/06/10/deportes/mexico-sudafrica-grupoa-mundial-2026-orix"},
     {t:"México vs Sudáfrica: previa, predicciones y alineaciones",s:"Sports Illustrated",u:"https://www.si.com/es-us/futbol/mexico-vs-sudafrica-previa-predicciones-y-alineaciones-11-6-2026"},
     {t:"Posibles alineaciones de México para el debut mundialista",s:"Claro Sports",u:"https://www.clarosports.com/futbol/mundial-2026/mexico-vs-sudafrica-mundial-2026-en-vivo-posibles-alineaciones-de-la-seleccion-mexicana-para-el-partido-del-11-de-junio/"},
@@ -475,20 +582,21 @@
     {t:"Análisis del Grupo A: México, Sudáfrica, Corea y Chequia",s:"RPP",u:"https://rpp.pe/futbol/mundial-2026/analisis-del-grupo-a-del-mundial-2026-mexico-sudafrica-corea-del-sur-y-republica-checa-noticia-1692233"},
     {t:"México vs Sudáfrica: pronóstico y claves del partido",s:"Squawka",u:"https://www.squawka.com/us-es/news/mundial-2026/mexico-vs-sudafrica-pronostico-mundial-2026/"},
     {t:"Inauguración del Mundial 2026: día, horario y cómo ver",s:"La Nación",u:"https://www.lanacion.com.ar/deportes/futbol/inauguracion-del-mundial-2026-dia-horario-tv-y-como-ver-online-nid09062026/"},
-    {t:"Ceremonia inaugural: artistas, horarios y detalles",s:"Olympics",u:"https://www.olympics.com/es/noticias/ceremonia-inaugural-mundial-2026"},
-    {t:"Inauguración Mundial 2026: guía completa",s:"Digital Trends",u:"https://es.digitaltrends.com/deportes/inauguracion-mundial-2026/"}
+    {t:"Ceremonia inaugural: artistas, horarios y detalles",s:"Olympics",u:"https://www.olympics.com/es/noticias/ceremonia-inaugural-mundial-2026"}
   ];
-  const SEED_PREDS={"Andrés Arévalo Pérez":{"champ":"España","scorer":"Harry Kane"}};
+  const SEED_PREDS={"ANGELA PATRICIA VALENCIA LOZANO": {"champ": "Francia", "scorer": "Kylian Mbappé"}, "tatin Garcia ( son wanda)": {"champ": "Francia", "scorer": "Kylian Mbappé"}, "María Carolina Otálora Arévalo": {"champ": "Francia", "scorer": "Kylian Mbappé"}, "Avelino Bejarano Rodriguez": {"champ": "Brasil", "scorer": "Kylian Mbappé"}, "Jorge Calderon": {"champ": "Francia", "scorer": "Kylian Mbappé"}, "Erika Bejarano": {"champ": "Países Bajos", "scorer": "Kylian Mbappé"}, "Adriana Jiménez": {"champ": "Francia", "scorer": "Kylian Mbappé"}, "David Arevalo": {"champ": "España", "scorer": "Harry Kane"}, "julian manuel riveros alvarado": {"champ": "España", "scorer": "Harry Kane"}, "Andrés Felipe Guevara Ramírez": {"champ": "Brasil", "scorer": "Harry Kane"}, "DEYANIRA VILLAMIL": {"champ": "Portugal", "scorer": "Harry Kane"}, "Orlando Bejarano": {"champ": "Portugal", "scorer": "Cristiano Ronaldo"}, "Laura Ramírez": {"champ": "España", "scorer": "Erling Haaland"}, "Juliana Rodríguez Guzmán": {"champ": "Francia", "scorer": "Michael Olise"}, "Diego Arevalo": {"champ": "España", "scorer": "Kylian Mbappé"}, "John Galvis": {"champ": "España", "scorer": "Kylian Mbappé"}, "Miguel Linares": {"champ": "Portugal", "scorer": "Kylian Mbappé"}, "Juan Arévalo": {"champ": "España", "scorer": "Kylian Mbappé"}, "Daniel Bejarano": {"champ": "España", "scorer": "Kylian Mbappé"}, "James Pinzon": {"champ": "Francia", "scorer": "Kylian Mbappé"}, "Daniel Felipe Cruz Villamil": {"champ": "Francia", "scorer": "Kylian Mbappé"}, "Fanny Perez Martinez": {"champ": "Francia", "scorer": "Kylian Mbappé"}, "Santiago Páez Villamil": {"champ": "Francia", "scorer": "Kylian Mbappé"}, "Felipe Hernández": {"champ": "España", "scorer": "Kylian Mbappé"}, "Hugo Tovar Perez": {"champ": "Argentina", "scorer": "Lionel Messi"}, "Daniela Arevalo": {"champ": "Argentina", "scorer": "Julián Álvarez"}, "Andrés Arévalo Pérez": {"champ": "España", "scorer": "Harry Kane"}, "Amparo Perez": {"champ": "Francia", "scorer": "Harry Kane"}, "Carlos Augusto Arevalo Castañeda": {"champ": "Inglaterra", "scorer": "Harry Kane"}, "Oscar Tovar Perez": {"champ": "España", "scorer": "Harry Kane"}, "Carito P Gonzalezz": {"champ": "España", "scorer": "Harry Kane"}, "Jorge Yurgaqui": {"champ": "Francia", "scorer": "Harry Kane"}, "Omi Goku Arévalo Suárez": {"champ": "Colombia", "scorer": "Luis Díaz"}, "Rafael Arevalo": {"champ": "Inglaterra", "scorer": "Michael Olise"}, "Adrian Bejarano": {"champ": "España", "scorer": "Lamine Yamal"}, "Carlos A. Arevalo A.": {"champ": "Colombia", "scorer": "Luis Díaz"}, "Maria Paula Arévalo": {"champ": "Colombia", "scorer": "Luis Díaz"}, "Jorge Orlando Páez Murcia": {"champ": "Brasil", "scorer": "Lautaro Martínez"}, "Maria Villamil": {"champ": "Francia", "scorer": "Lamine Yamal"}, "Guillermo León Valencia": {"champ": "Brasil", "scorer": "Luis Díaz"}, "Fredy": {"champ": "Francia", "scorer": "Erling Haaland"}, "Hermogenes Tovar": {"champ": "Brasil", "scorer": "Kylian Mbappé"}, "Jesus Alberto Arevalo": {"champ": "Inglaterra", "scorer": "Harry Kane"}, "Himelda Arévalo Castañeda": {"champ": "Brasil", "scorer": "Cristiano Ronaldo"}, "Deymer De La Torre": {"champ": "Portugal", "scorer": "Cristiano Ronaldo"}, "Julieth Andrea Gonzalez": {"champ": "España", "scorer": "Ousmane Dembélé"}, "Carlos R.Coronado": {"champ": "España", "scorer": "Lamine Yamal"}};
+  const SEED_ELIM=[];
+  const SEED_SNAPSHOTS=[{"date": "2026-06-11", "points": {"ANGELA PATRICIA VALENCIA LOZANO": 3, "tatin Garcia ( son wanda)": 3, "María Carolina Otálora Arévalo": 3, "Avelino Bejarano Rodriguez": 3, "Jorge Calderon": 3, "Erika Bejarano": 3, "Adriana Jiménez": 3, "David Arevalo": 3, "julian manuel riveros alvarado": 3, "Andrés Felipe Guevara Ramírez": 3, "DEYANIRA VILLAMIL": 3, "Orlando Bejarano": 3, "Laura Ramírez": 3, "Juliana Rodríguez Guzmán": 3, "Diego Arevalo": 1, "John Galvis": 1, "Miguel Linares": 1, "Juan Arévalo": 1, "Daniel Bejarano": 1, "James Pinzon": 1, "Daniel Felipe Cruz Villamil": 1, "Fanny Perez Martinez": 1, "Santiago Páez Villamil": 1, "Felipe Hernández": 1, "Hugo Tovar Perez": 1, "Daniela Arevalo": 1, "Andrés Arévalo Pérez": 1, "Amparo Perez": 1, "Carlos Augusto Arevalo Castañeda": 1, "Oscar Tovar Perez": 1, "Carito P Gonzalezz": 1, "Jorge Yurgaqui": 1, "Omi Goku Arévalo Suárez": 1, "Rafael Arevalo": 1, "Adrian Bejarano": 1, "Carlos A. Arevalo A.": 1, "Maria Paula Arévalo": 1, "Jorge Orlando Páez Murcia": 1, "Maria Villamil": 1, "Guillermo León Valencia": 1, "Fredy": 1, "Hermogenes Tovar": 0, "Jesus Alberto Arevalo": 0, "Himelda Arévalo Castañeda": 0, "Deymer De La Torre": 0, "Julieth Andrea Gonzalez": 0, "Carlos R.Coronado": 0}, "exact": {"ANGELA PATRICIA VALENCIA LOZANO": 1, "tatin Garcia ( son wanda)": 1, "María Carolina Otálora Arévalo": 1, "Avelino Bejarano Rodriguez": 1, "Jorge Calderon": 1, "Erika Bejarano": 1, "Adriana Jiménez": 1, "David Arevalo": 1, "julian manuel riveros alvarado": 1, "Andrés Felipe Guevara Ramírez": 1, "DEYANIRA VILLAMIL": 1, "Orlando Bejarano": 1, "Laura Ramírez": 1, "Juliana Rodríguez Guzmán": 1, "Diego Arevalo": 0, "John Galvis": 0, "Miguel Linares": 0, "Juan Arévalo": 0, "Daniel Bejarano": 0, "James Pinzon": 0, "Daniel Felipe Cruz Villamil": 0, "Fanny Perez Martinez": 0, "Santiago Páez Villamil": 0, "Felipe Hernández": 0, "Hugo Tovar Perez": 0, "Daniela Arevalo": 0, "Andrés Arévalo Pérez": 0, "Amparo Perez": 0, "Carlos Augusto Arevalo Castañeda": 0, "Oscar Tovar Perez": 0, "Carito P Gonzalezz": 0, "Jorge Yurgaqui": 0, "Omi Goku Arévalo Suárez": 0, "Rafael Arevalo": 0, "Adrian Bejarano": 0, "Carlos A. Arevalo A.": 0, "Maria Paula Arévalo": 0, "Jorge Orlando Páez Murcia": 0, "Maria Villamil": 0, "Guillermo León Valencia": 0, "Fredy": 0, "Hermogenes Tovar": 0, "Jesus Alberto Arevalo": 0, "Himelda Arévalo Castañeda": 0, "Deymer De La Torre": 0, "Julieth Andrea Gonzalez": 0, "Carlos R.Coronado": 0}}];
+  const SEED_ORDER={"ANGELA PATRICIA VALENCIA LOZANO": 1, "tatin Garcia ( son wanda)": 2, "María Carolina Otálora Arévalo": 3, "Avelino Bejarano Rodriguez": 4, "Jorge Calderon": 5, "Erika Bejarano": 6, "Adriana Jiménez": 7, "David Arevalo": 8, "julian manuel riveros alvarado": 9, "Andrés Felipe Guevara Ramírez": 10, "DEYANIRA VILLAMIL": 11, "Orlando Bejarano": 12, "Laura Ramírez": 13, "Juliana Rodríguez Guzmán": 14, "Diego Arevalo": 15, "John Galvis": 16, "Miguel Linares": 17, "Juan Arévalo": 18, "Daniel Bejarano": 19, "James Pinzon": 20, "Daniel Felipe Cruz Villamil": 21, "Fanny Perez Martinez": 22, "Santiago Páez Villamil": 23, "Felipe Hernández": 24, "Hugo Tovar Perez": 25, "Daniela Arevalo": 26, "Andrés Arévalo Pérez": 27, "Amparo Perez": 28, "Carlos Augusto Arevalo Castañeda": 29, "Oscar Tovar Perez": 30, "Carito P Gonzalezz": 31, "Jorge Yurgaqui": 32, "Omi Goku Arévalo Suárez": 33, "Rafael Arevalo": 34, "Adrian Bejarano": 35, "Carlos A. Arevalo A.": 36, "Maria Paula Arévalo": 37, "Jorge Orlando Páez Murcia": 38, "Maria Villamil": 39, "Guillermo León Valencia": 40, "Fredy": 41, "Hermogenes Tovar": 42, "Jesus Alberto Arevalo": 43, "Himelda Arévalo Castañeda": 44, "Deymer De La Torre": 45, "Julieth Andrea Gonzalez": 46, "Carlos R.Coronado": 47};
 
-  let data={participants:[],snapshots:[],aliases:{},acronyms:{},news:[],preds:{}};
+  let data={participants:[],snapshots:[],aliases:{},acronyms:{},news:[],preds:{},eliminated:[]};
   let charts={};
   let selected=null;     // Set de nombres visibles en gráficos
   let editingDate=null;
 
-  const EMBEDDED_SNAPSHOTS=[];
-  const ACTUALIZADO="—";
+  const ACTUALIZADO="11 de junio";
   async function load(){
-    data={participants:[...SEED],aliases:Object.assign({},SEED_ALIAS),acronyms:Object.assign({},SEED_ACR),snapshots:JSON.parse(JSON.stringify(EMBEDDED_SNAPSHOTS)),news:JSON.parse(JSON.stringify(SEED_NEWS)),preds:JSON.parse(JSON.stringify(SEED_PREDS))};
+    data={participants:[...SEED],aliases:Object.assign({},SEED_ALIAS),acronyms:Object.assign({},SEED_ACR),snapshots:JSON.parse(JSON.stringify(SEED_SNAPSHOTS)),news:JSON.parse(JSON.stringify(SEED_NEWS)),preds:JSON.parse(JSON.stringify(SEED_PREDS)),eliminated:JSON.parse(JSON.stringify(SEED_ELIM))};
   }
   async function save(){return true;}
 
@@ -497,10 +605,11 @@
   const fmtLong=d=>new Date(d+'T12:00:00').toLocaleDateString('es',{day:'numeric',month:'long'});
   const colorOf=n=>PALETTE[data.participants.indexOf(n)%PALETTE.length];
   const acrOf=n=>(data.acronyms&&data.acronyms[n])?data.acronyms[n]:n;
+  const orderOf=n=>(typeof SEED_ORDER!=="undefined"&&SEED_ORDER[n]!=null)?SEED_ORDER[n]:9000+data.participants.indexOf(n);
   const sortedSnaps=()=>[...data.snapshots].sort((a,b)=>a.date.localeCompare(b.date));
   function rankOf(snap){
     const arr=data.participants.map(p=>({p,pts:(snap.points[p]??0),ex:(snap.exact&&snap.exact[p])||0}));
-    arr.sort((a,b)=>b.pts-a.pts||b.ex-a.ex||a.p.localeCompare(b.p));
+    arr.sort((a,b)=>b.pts-a.pts||b.ex-a.ex||orderOf(a.p)-orderOf(b.p));
     const m={};arr.forEach((o,i)=>m[o.p]=i+1);return m;
   }
   let toastT;function toast(msg,kind){const t=$('#toast');t.textContent=msg;t.className='toast show '+(kind||'ok');clearTimeout(toastT);toastT=setTimeout(()=>t.className='toast',2200);}
@@ -510,7 +619,7 @@
     document.querySelectorAll('.tab').forEach(b=>b.classList.toggle('active',b.dataset.view===v));
     document.querySelectorAll('.view').forEach(s=>s.classList.remove('active'));
     $('#view-'+v).classList.add('active');
-    if(v==='dash')renderDash();
+    if(v==='dash')renderTablero();
     if(v==='evol')renderEvol();
     if(v==='news')renderNews();
     if(v==='entry')renderEntry();
@@ -623,8 +732,8 @@
     const ready=data.participants.length>0&&data.snapshots.length>0;
     $('#evolEmpty').style.display=ready?'none':'block';
     $('#evolContent').style.display=ready?'block':'none';
-    if(!ready){stopRace();return;}
-    buildRace(sortedSnaps());
+    if(ready)buildRace(sortedSnaps());else stopRace();
+    renderDuel();
   }
   function renderKPIs(stand,snaps,prev){
     const leader=stand[0];const lead=leader.pts;
@@ -647,10 +756,10 @@
       let mv='<span class="mv eq">\u2013</span>';
       if(prev&&s.prevRank!=null){const d=s.prevRank-s.rank;if(d>0)mv=`<span class="mv up">\u25b2${d}</span>`;else if(d<0)mv=`<span class="mv dn">\u25bc${-d}</span>`;}
       const gain=s.gain>0?`+${s.gain}`:s.gain;
-      h+=`<tr data-name="${escapeHtml(s.p.toLowerCase())}">
+      h+=`<tr class="${s.rank===1?'zrow zr1':s.rank===2?'zrow zr2':s.rank===3?'zrow zr3':''}" data-name="${escapeHtml(s.p.toLowerCase())}">
         <td><div class="rankcell"><span class="rankno ${cls}">${s.rank}</span>${mv}</div></td>
-        <td><div class="rankcell"><span class="pdot" style="background:${colorOf(s.p)}"></span><span class="pname">${escapeHtml(s.p)}</span>${data.acronyms[s.p]?`<span class="acrbadge">${escapeHtml(data.acronyms[s.p])}</span>`:''}</div></td>
-        <td class="predcol">${escapeHtml(predGet(s.p,'champ')||'—')}</td>
+        <td><div class="rankcell"><span class="pdot" style="background:${colorOf(s.p)}"></span>${champFlag(s.p)?`<span class="cflag" title="${escapeHtml(predGet(s.p,'champ'))}">${champFlag(s.p)}</span>`:''}<span class="pname">${escapeHtml(s.p)}</span>${data.acronyms[s.p]?`<span class="acrbadge">${escapeHtml(data.acronyms[s.p])}</span>`:''}</div></td>
+        <td class="predcol">${champCell(s.p)}</td>
         <td class="predcol">${escapeHtml(predGet(s.p,'scorer')||'—')}</td>
         <td class="r"><span class="pts">${s.pts}</span></td>
         <td class="r hidem"><span class="gain ${s.gain<=0?'zero':''}">${gain}</span></td>
@@ -672,6 +781,25 @@
   function raceCount(){return Math.min(raceN==='all'?data.participants.length:raceN,data.participants.length);}
   function markRaceN(){document.querySelectorAll('.raceN').forEach(x=>x.classList.toggle('active',(x.dataset.n==='all'?'all':parseInt(x.dataset.n))===raceN));}
   function stopRace(){if(raceTimer){clearInterval(raceTimer);raceTimer=null;}const b=document.getElementById('racePlay');if(b)b.textContent='\u25b6 Reproducir';}
+  const RACE_TOTAL_JORNADAS=39;
+  const RACE_START_DATE='2026-06-11';
+  function jornadaOf(dateStr){
+    var start=new Date(RACE_START_DATE+'T12:00:00');var d=new Date(String(dateStr)+'T12:00:00');
+    if(isNaN(d.getTime()))return 1;
+    var diff=Math.round((d-start)/86400000);
+    return Math.max(1,Math.min(RACE_TOTAL_JORNADAS,diff+1));
+  }
+  function jornadaTicksHTML(){
+    var T=RACE_TOTAL_JORNADAS,html='';
+    for(var j=1;j<=T;j++){var left=((j-1)/(T-1)*100).toFixed(2);var lab=(j===1||j===T||j%5===0)?('<span class="raxis-lab">'+j+'</span>'):'';html+='<span class="raxis-tick" style="left:'+left+'%">'+lab+'</span>';}
+    return html;
+  }
+  function buildRaceAxis(){var t=document.getElementById('raxisTicks');if(t)t.innerHTML=jornadaTicksHTML();}
+  function updateRaceAxis(jor){
+    var T=RACE_TOTAL_JORNADAS,pos=(T<=1?0:((jor-1)/(T-1)*100)).toFixed(2);
+    var fl=document.getElementById('raxisFill');if(fl)fl.style.width=pos+'%';
+    var mk=document.getElementById('raxisMarker');if(mk)mk.style.left=pos+'%';
+  }
   function buildRace(snaps){
     stopRace();
     const cont=document.getElementById('race');if(!cont)return;
@@ -689,12 +817,13 @@
     });
     const sl=document.getElementById('raceSlider');sl.max=Math.max(0,snaps.length-1);
     raceFrame=snaps.length-1;sl.value=raceFrame;
+    buildRaceAxis();
     renderRaceFrame(raceFrame);
   }
   function renderRaceFrame(i){
     const snaps=sortedSnaps();if(!snaps.length)return;i=Math.max(0,Math.min(i,snaps.length-1));
     const snap=snaps[i];
-    const arr=data.participants.map(p=>({p,v:snap.points[p]??0})).sort((a,b)=>b.v-a.v||acrOf(a.p).localeCompare(acrOf(b.p)));
+    const arr=data.participants.map(p=>({p,v:snap.points[p]??0})).sort((a,b)=>b.v-a.v||orderOf(a.p)-orderOf(b.p));
     const N=raceCount();
     arr.forEach((o,idx)=>{
       const el=raceBars[o.p];if(!el)return;
@@ -702,7 +831,9 @@
       el.querySelector('.rfill').style.width=(o.v/raceMax*100)+'%';
       el.querySelector('.rval').textContent=o.v;
     });
-    const d=document.getElementById('raceDate');if(d)d.textContent=fmtLong(snap.date);
+    const jor=jornadaOf(snap.date);
+    const d=document.getElementById('raceDate');if(d)d.textContent='Jornada '+jor+' \u00b7 '+fmtLong(snap.date);
+    updateRaceAxis(jor);
     const sl=document.getElementById('raceSlider');if(sl)sl.value=i;raceFrame=i;
   }
   function playRace(){
@@ -828,9 +959,134 @@
     var n=Object.keys(r.set).length;
     if(!n){toast('No reconocí ningún participante','err');return;}
     Object.keys(r.set).forEach(function(p){if(!data.preds[p])data.preds[p]={};data.preds[p].champ=r.set[p].champ;data.preds[p].scorer=r.set[p].scorer;});
-    await save();renderDash();document.getElementById('predText').value='';
+    await save();renderTablero();document.getElementById('predText').value='';
     toast(n+' pronóstico(s) importado(s)'+(r.un.length?(' \u00b7 '+r.un.length+' sin reconocer'):''));
   });})();
+
+  /* distribución + termómetro del campeón */
+  function isElim(team){return (data.eliminated||[]).some(function(e){return e&&norm(e)===norm(team);});}
+  function champCell(p){var c=predGet(p,'champ');if(!c)return '\u2014';var f=flagOf(c);var nm=isElim(c)?('<span class="chelim">'+escapeHtml(c)+'</span>'):escapeHtml(c);return (f?f+' ':'')+nm;}
+  function aggField(field){var m={};data.participants.forEach(function(p){var v=predGet(p,field);if(!v)return;var nk=norm(v);if(!m[nk])m[nk]={label:v.trim(),count:0};m[nk].count++;});return Object.keys(m).map(function(k){return m[k];}).sort(function(a,b){return b.count-a.count;});}
+  function distRows(arr,markElim){
+    if(!arr.length)return '<div style="color:var(--faint);font-size:13px">Sin datos aún.</div>';
+    var max=arr[0].count||1;
+    return arr.map(function(o){var el=markElim&&isElim(o.label);var pct=Math.round(o.count/max*100);
+      return '<div class="distrow'+(el?' elim':'')+'"><span class="distlabel" title="'+escapeHtml(o.label)+'">'+escapeHtml(o.label)+'</span><span class="distbarwrap"><span class="distbar" style="width:'+pct+'%"></span></span><span class="distcount">'+o.count+'</span></div>';}).join('');
+  }
+  function renderDistrib(){
+    var wrap=document.getElementById('distribWrap');if(!wrap)return;
+    var champs=aggField('champ'),scorers=aggField('scorer');
+    if(!champs.length&&!scorers.length){wrap.style.display='none';return;}
+    wrap.style.display='block';
+    var withChamp=data.participants.filter(function(p){return predGet(p,'champ');}).length;
+    var alive=data.participants.filter(function(p){var c=predGet(p,'champ');return c&&!isElim(c);}).length;
+    var aliveEl=document.getElementById('aliveStat');if(aliveEl)aliveEl.textContent=withChamp?('\u00b7 '+alive+'/'+withChamp+' con campeón vivo'):'';
+    document.getElementById('distChamp').innerHTML=distRows(champs,true);
+    document.getElementById('distScorer').innerHTML=distRows(scorers,false);
+    var hint=document.getElementById('distHint');if(hint)hint.textContent=withChamp+' de '+data.participants.length+' con pronóstico';
+  }
+  (function(){var b=document.getElementById('elimSave');if(!b)return;b.addEventListener('click',async function(){
+    var raw=document.getElementById('elimText').value||'';
+    var list=raw.split(/[\n,;]+/).map(function(x){return x.trim();}).filter(Boolean);
+    data.eliminated=list;await save();renderTablero();
+    toast(list.length+' equipo(s) marcados como eliminados');
+  });})();
+
+  /* banderas, jugador de la jornada, premios, rachas, duelos */
+  const FLAG={'argentina':'🇦🇷','brasil':'🇧🇷','francia':'🇫🇷','espana':'🇪🇸','inglaterra':'🏴\udb40\udc67\udb40\udc62\udb40\udc65\udb40\udc6e\udb40\udc67\udb40\udc7f','alemania':'🇩🇪','portugal':'🇵🇹','paises bajos':'🇳🇱','holanda':'🇳🇱','italia':'🇮🇹','belgica':'🇧🇪','croacia':'🇭🇷','uruguay':'🇺🇾','colombia':'🇨🇴','mexico':'🇲🇽','estados unidos':'🇺🇸','eeuu':'🇺🇸','usa':'🇺🇸','canada':'🇨🇦','marruecos':'🇲🇦','japon':'🇯🇵','corea del sur':'🇰🇷','corea':'🇰🇷','senegal':'🇸🇳','suiza':'🇨🇭','dinamarca':'🇩🇰','serbia':'🇷🇸','polonia':'🇵🇱','ecuador':'🇪🇨','ghana':'🇬🇭','australia':'🇦🇺','austria':'🇦🇹','noruega':'🇳🇴','turquia':'🇹🇷','egipto':'🇪🇬','nigeria':'🇳🇬','costa de marfil':'🇨🇮','camerun':'🇨🇲','tunez':'🇹🇳','argelia':'🇩🇿','catar':'🇶🇦','qatar':'🇶🇦','arabia saudita':'🇸🇦','iran':'🇮🇷','sudafrica':'🇿🇦','peru':'🇵🇪','chile':'🇨🇱','paraguay':'🇵🇾','venezuela':'🇻🇪','bolivia':'🇧🇴','escocia':'🏴\udb40\udc67\udb40\udc62\udb40\udc73\udb40\udc63\udb40\udc74\udb40\udc7f','gales':'🏴\udb40\udc67\udb40\udc62\udb40\udc77\udb40\udc6c\udb40\udc73\udb40\udc7f','ucrania':'🇺🇦','suecia':'🇸🇪','republica checa':'🇨🇿','chequia':'🇨🇿','grecia':'🇬🇷','panama':'🇵🇦','honduras':'🇭🇳','jamaica':'🇯🇲','nueva zelanda':'🇳🇿','hungria':'🇭🇺','eslovenia':'🇸🇮','eslovaquia':'🇸🇰','rumania':'🇷🇴','cabo verde':'🇨🇻','curazao':'🇨🇼'};
+  function flagOf(c){if(!c)return '';return FLAG[norm(c)]||'';}
+  function champFlag(p){return flagOf(predGet(p,'champ'));}
+  function hasData(){return data.participants.length>0&&data.snapshots.length>0;}
+  function fmtCOP(n){return '$'+Number(n).toLocaleString('es-CO');}
+  var PRIZES=[1400000,650000,300000];
+  function renderTablero(){renderDash();renderPrize();renderJDLJ();renderStreaks();renderDistrib();}
+  function renderJDLJ(){
+    var el=document.getElementById('jdljBanner');if(!el)return;
+    if(!hasData()||data.snapshots.length<2){el.style.display='none';return;}
+    var cs=currentStand();var stand=cs.stand;if(!cs.prev){el.style.display='none';return;}
+    var top=null;stand.forEach(function(x){if(!top||x.gain>top.gain)top=x;});
+    if(!top||top.gain<=0){el.style.display='none';return;}
+    var climb=(top.prevRank!=null)?(top.prevRank-top.rank):0;
+    var extra=climb>0?(' \u00b7 subió '+climb+' puesto'+(climb>1?'s':'')):'';
+    el.style.display='flex';
+    el.innerHTML='<span class="jdlj-ic">\u2b50</span><div><div class="jdlj-lab">Jugador de la jornada</div><div class="jdlj-main"><b>'+escapeHtml(data.aliases[top.p]||top.p)+'</b> '+champFlag(top.p)+' <span class="jdlj-gain">+'+top.gain+' pts</span>'+extra+'</div></div>';
+  }
+  function renderPrize(){
+    var grid=document.getElementById('prizeGrid');if(!grid)return;
+    var holders=[null,null,null];
+    if(hasData()){var st=currentStand().stand;holders=[st[0],st[1],st[2]];}
+    var pos=['1.\u00ba','2.\u00ba','3.\u00ba'];var cls=['gold','sil','brz'];
+    grid.innerHTML=PRIZES.map(function(amt,i){
+      var h=holders[i];
+      var who=h?('<span class="pz-who">'+champFlag(h.p)+' '+escapeHtml(data.aliases[h.p]||h.p)+'</span><span class="pz-pts">'+h.pts+' pts</span>'):'<span class="pz-who pz-empty">por definir</span>';
+      return '<div class="pz '+cls[i]+'"><div class="pz-pos">'+pos[i]+'</div><div class="pz-amt">'+fmtCOP(amt)+'</div>'+who+'</div>';
+    }).join('');
+  }
+  function renderStreaks(){
+    var wrap=document.getElementById('streakWrap');if(!wrap)return;
+    if(!hasData()){wrap.style.display='none';return;}
+    var snaps=sortedSnaps();
+    function exAt(s,p){return (s.exact&&s.exact[p])||0;}
+    var res=[];
+    data.participants.forEach(function(p){
+      var streak=0;
+      for(var i=snaps.length-1;i>=0;i--){var gain=exAt(snaps[i],p)-(i>0?exAt(snaps[i-1],p):0);if(gain>0)streak++;else break;}
+      if(streak>0)res.push({p:p,streak:streak});
+    });
+    res.sort(function(a,b){return b.streak-a.streak;});
+    if(!res.length){wrap.style.display='none';return;}
+    wrap.style.display='block';
+    document.getElementById('streakList').innerHTML=res.slice(0,14).map(function(o){return '<div class="streakrow"><span class="streak-fire">\ud83d\udd25</span><span class="streak-n">'+o.streak+'</span><span class="streak-name">'+champFlag(o.p)+' '+escapeHtml(data.aliases[o.p]||o.p)+'</span></div>';}).join('');
+  }
+  function duelStatFor(p){
+    var snaps=hasData()?sortedSnaps():[];
+    var last=snaps.length?snaps[snaps.length-1]:null;var prev=snaps.length>1?snaps[snaps.length-2]:null;
+    var pts=last?(last.points[p]||0):0;var ex=last&&last.exact?(last.exact[p]||0):0;
+    var gain=pts-(prev?(prev.points[p]||0):0);var rank=null;if(last){rank=rankOf(last)[p];}
+    return {pts:pts,ex:ex,gain:gain,rank:rank};
+  }
+  function duelRow(lab,val,win){return '<div class="duelrow'+(win?' win':'')+'"><span class="dl">'+lab+'</span><span class="dv">'+val+'</span></div>';}
+  function duelSide(p,S,O){
+    return '<div class="duelcard"><div class="duelname">'+champFlag(p)+' '+escapeHtml(data.aliases[p]||p)+'</div>'+
+      duelRow('Puesto',S.rank?('#'+S.rank):'\u2014',!!(S.rank&&O.rank&&S.rank<O.rank))+
+      duelRow('Puntos',S.pts,S.pts>O.pts)+
+      duelRow('Exactos',S.ex,S.ex>O.ex)+
+      duelRow('Última jornada',(S.gain>0?'+':'')+S.gain,S.gain>O.gain)+
+      duelRow('Campeón',((flagOf(predGet(p,'champ'))||'')+' '+escapeHtml(predGet(p,'champ')||'\u2014')).trim(),false)+
+      duelRow('Goleador',escapeHtml(predGet(p,'scorer')||'\u2014'),false)+'</div>';
+  }
+  function duelSpark(pa,pb){
+    if(!hasData())return '';var snaps=sortedSnaps();if(snaps.length<2)return '';
+    var W=520,H=120,pad=10,T=RACE_TOTAL_JORNADAS,maxv=1;snaps.forEach(function(s){maxv=Math.max(maxv,s.points[pa]||0,s.points[pb]||0);});
+    function xFor(s){return W*((jornadaOf(s.date)-1)/(T-1));}
+    function path(p){return snaps.map(function(s,i){var x=xFor(s);var y=H-pad-(H-2*pad)*((s.points[p]||0)/maxv);return (i?'L':'M')+x.toFixed(1)+' '+y.toFixed(1);}).join(' ');}
+    var legend='<div class="duellegend"><span class="dleg"><span class="dleg-line" style="background:'+colorOf(pa)+'"></span>'+escapeHtml(data.aliases[pa]||pa)+'</span><span class="dleg"><span class="dleg-line" style="background:'+colorOf(pb)+'"></span>'+escapeHtml(data.aliases[pb]||pb)+'</span></div>';
+    var axis='<div class="raceaxis" style="margin-top:12px"><div class="raxis-track"><div class="raxis-ticks">'+jornadaTicksHTML()+'</div></div></div>';
+    return '<div class="duelspark">'+legend+'<svg viewBox="0 0 '+W+' '+H+'" preserveAspectRatio="none" width="100%" height="120"><path d="'+path(pa)+'" fill="none" stroke="'+colorOf(pa)+'" stroke-width="2.5"/><path d="'+path(pb)+'" fill="none" stroke="'+colorOf(pb)+'" stroke-width="2.5"/></svg>'+axis+'</div>';
+  }
+  function renderDuelBody(){
+    var body=document.getElementById('duelBody');if(!body)return;
+    var pa=document.getElementById('duelA').value,pb=document.getElementById('duelB').value;
+    if(!pa||!pb){body.innerHTML='';return;}
+    var A=duelStatFor(pa),B=duelStatFor(pb);
+    var verdict;
+    if(A.pts!==B.pts){var w=A.pts>B.pts?pa:pb;verdict='<div class="duelverdict">'+champFlag(w)+' <b>'+escapeHtml(data.aliases[w]||w)+'</b> va arriba por '+Math.abs(A.pts-B.pts)+' pts</div>';}
+    else verdict='<div class="duelverdict">Empatados en puntos</div>';
+    body.innerHTML='<div class="duelgrid">'+duelSide(pa,A,B)+duelSide(pb,B,A)+'</div>'+verdict+duelSpark(pa,pb);
+  }
+  function renderDuel(){
+    var a=document.getElementById('duelA'),b=document.getElementById('duelB');if(!a||!b)return;
+    if(a.dataset.filled!=='1'){
+      var opts=data.participants.map(function(p){return '<option value="'+escapeHtml(p)+'">'+escapeHtml(data.aliases[p]||p)+'</option>';}).join('');
+      a.innerHTML=opts;b.innerHTML=opts;
+      var def=data.participants.slice();
+      if(hasData()){def=currentStand().stand.map(function(x){return x.p;});}
+      a.value=def[0]||'';b.value=def[1]||def[0]||'';
+      a.dataset.filled='1';b.dataset.filled='1';
+      a.addEventListener('change',renderDuelBody);b.addEventListener('change',renderDuelBody);
+    }
+    renderDuelBody();
+  }
 
   /* demo / export / reset */
   window.loadDemo=async function(){
@@ -855,7 +1111,7 @@
     data.snapshots=[];selected=null;await save();renderEntry();renderDash();toast('Jornadas borradas');
   };
 
-  (async function init(){await load();const u=document.getElementById("upd");if(u&&ACTUALIZADO&&ACTUALIZADO!=="—")u.textContent="actualizado: "+ACTUALIZADO;renderDash();renderNews();})();
+  (async function init(){await load();const u=document.getElementById("upd");if(u&&ACTUALIZADO&&ACTUALIZADO!=="—")u.textContent="actualizado: "+ACTUALIZADO;renderTablero();renderNews();})();
 })();
 </script>
 
